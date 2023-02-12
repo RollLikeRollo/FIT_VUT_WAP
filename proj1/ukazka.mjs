@@ -6,7 +6,7 @@
 /// Využijeme knihovnu, která je předmětem zadání projektu
 import { iterateProperties } from "./iterate.mjs";
 
-// Pomocná funkce pro tuto ukázku
+// Pomocná funkce pro tuto ukámsj zku
 function logGeneratedValues(gen) {
 	for (let prop of gen) {
 		console.log(prop);

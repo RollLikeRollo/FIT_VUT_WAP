@@ -19,15 +19,16 @@ Knihovna pojmenovaná iterate.mjs bude součástí odevzdaného souboru a bude e
 
 Generátor iterateProperties bude očekávat až dva parametry:
 
-Povinný parametr obsahující objekt, jehož vlastnosti se budou knihovnou procházet.
-Volitelný parametr obsahující popisovač vlastností. Pokud bude přítomen, pak uživatel knihovny očekává, že bude generátor generovat pouze jména vlastností, které se striktně shodují s předanou hodnotou. Pakliže některé hodnoty nebudou dodaným popisovačem vlastnosti specifikované (undefined), pak na základě nich nebude probíhat filtrace.
-Zajistěte, aby bylo možné generátor volat opakovaně a bylo tak možné iterátorovat nad vlastnostmi více objektů zároveň. Předpokládejte, že v průběhu iterace nebudou objekty ani jejich řetězec prototypů měněny.
+- Povinný parametr obsahující objekt, jehož vlastnosti se budou knihovnou procházet.
+Volitelný parametr obsahující popisovač vlastností. Pokud bude přítomen, pak uživatel knihovny očekává, že bude generátor generovat pouze jména vlastností, které se striktně shodují s předanou hodnotou. Pakliže některé hodnoty nebudou dodaným popisovačem vlastnosti specifikované (undefined), pak na základě nich nebude probíhat filtrace. 
+
+- Zajistěte, aby bylo možné generátor volat opakovaně a bylo tak možné iterátorovat nad vlastnostmi více objektů zároveň. Předpokládejte, že v průběhu iterace nebudou objekty ani jejich řetězec prototypů měněny.
 
 ### Očekávané vlastnosti knihovny:
 
-Poskytuje jediný exportovaný generátor iterateProperties().
-Snažte se psát efektivní, dokumentovaný a čitelný kód.
-Odevzdejte testy, kterými jste knihovnu testovali.
+ - Poskytuje jediný exportovaný generátor iterateProperties().  
+ - Snažte se psát efektivní, dokumentovaný a čitelný kód.  
+ - Odevzdejte testy, kterými jste knihovnu testovali.  
 
 # Testy knihovny
 
