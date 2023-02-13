@@ -4,6 +4,7 @@ d=${1}
 
 if [ "$d" = 'd' ]; then
     rm jsdoc.config.json
+    rm -rf ${PWD}/out
     exit 1
 else
     echo '{
@@ -11,7 +12,7 @@ else
     "recurseDepth": 10,
     "source": {
         "include": ["."],
-        "includePattern": ".+\\.mjs(doc|x)?$"
+        "includePattern": ".+\\.(m)*js(doc|x)?$"
     },
     "sourceType": "module",
     "tags": {
@@ -19,11 +20,12 @@ else
         "dictionaries": ["jsdoc","closure"]
     },
     "templates": {
-        "cleverLinks": false,
-        "monospaceLinks": false
+        "cleverLinks": true,
+        "monospaceLinks": true
     }
     }
     ' > jsdoc.config.json
+
     jsdoc -c jsdoc.config.json iterate.mjs 
     exit 1
 fi

@@ -7,6 +7,6 @@ if [ "$d" = 'd' ]; then
     rm ${login}.zip
     exit 1
 else
-    zip ${login} doc.sh iterate.mjs test.sh 
+    zip ${login} doc.sh iterate.mjs test.sh package.json
     exit 1
 fi
