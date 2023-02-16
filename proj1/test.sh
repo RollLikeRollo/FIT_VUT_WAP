@@ -7,13 +7,13 @@ if [ "$d" = 'd' ]; then
     rm babel.config.js
     rm jest.config.js
     exit 1
-else
+elif [ "$d" = 'install' ]; then
     npm i babel-jest --save-dev
     npm i @babel/preset-env --save-dev
     npm i jest --save-dev
     npm i -D rewire  --save-dev
     npm i -D @types/rewire  --save-dev
-
+else
     echo 'const presets = [
     [
       "@babel/preset-env",

@@ -80,4 +80,13 @@ class Point3D {
 		this.z = z;
 	}
 }
-logGeneratedValues(iterateProperties(new Point3D(1.5, 6.3, 5), {enumerable: true})) // x y z navíc
+logGeneratedValues(iterateProperties(new Point3D(1.5, 6.3, 5), { enumerable: true })) // x y z navíc
+
+
+let obj2 = {};
+    Object.defineProperty(obj2, "prop", {
+        writable: true,
+        enumerable: false,
+    });
+
+logGeneratedValues(iterateProperties(obj2, { enumerable: true })) // d a b c

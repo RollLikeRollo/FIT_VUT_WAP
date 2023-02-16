@@ -86,117 +86,274 @@ test('iterateProperties with Object.prototype', () => {
 });
 
 test('iterateProperties with simple object', () => { 
-    let obj = { a: 1, b: 2, c: 3 };
-    const consoleSpy = jest.spyOn(console, 'log');
-    logGeneratedValues(iterate.iterateProperties(obj));
+    let obj = {
+        a: 1,
+        b: 2,
+        c: 3
+    };
 
-    expect(consoleSpy).toHaveBeenCalledWith('constructor');
-    expect(consoleSpy).toHaveBeenCalledWith('__defineGetter__');
-    expect(consoleSpy).toHaveBeenCalledWith('__defineSetter__');
-    expect(consoleSpy).toHaveBeenCalledWith('hasOwnProperty');
-    expect(consoleSpy).toHaveBeenCalledWith('__lookupGetter__');
-    expect(consoleSpy).toHaveBeenCalledWith('__lookupSetter__');
-    expect(consoleSpy).toHaveBeenCalledWith('isPrototypeOf');
-    expect(consoleSpy).toHaveBeenCalledWith('propertyIsEnumerable');
-    expect(consoleSpy).toHaveBeenCalledWith('toString');
-    expect(consoleSpy).toHaveBeenCalledWith('valueOf');
-    expect(consoleSpy).toHaveBeenCalledWith('__proto__');
-    expect(consoleSpy).toHaveBeenCalledWith('toLocaleString');
-    expect(consoleSpy).toHaveBeenCalledWith('a');
-    expect(consoleSpy).toHaveBeenCalledWith('b');
-    expect(consoleSpy).toHaveBeenCalledWith('c');
+    let expected = [
+        "constructor",
+        '__defineGetter__',
+        '__defineSetter__',
+        'hasOwnProperty',
+        '__lookupGetter__',
+        '__lookupSetter__',
+        'isPrototypeOf',
+        'propertyIsEnumerable',
+        'toString',
+        'valueOf',
+        '__proto__',
+        'toLocaleString',
+        'a',
+        'b',
+        'c'
+    ];
+    let i = 0;
+    for (const  prop of iterate.iterateProperties(obj)) {
+        expect(prop).toEqual(expected[i]);
+        i++;
+    }
 });
 
-test('iterateProperties with simple object with inheritance', () => { 
-    let obj = { a: 1, b: 2, c: 3 };
-    let obj2 = Object.create(obj);
-    obj2.a = 4;
-    obj2['new'] = 5;
-    const consoleSpy = jest.spyOn(console, 'log');
-    logGeneratedValues(iterate.iterateProperties(obj2));
+test('iterateProperties with simple object with protoype chain', () => { 
+    let obj = {
+        a: 1,
+        b: 2,
+        c: 3
+    };
 
-    expect(consoleSpy).toHaveBeenCalledWith('constructor');
-    expect(consoleSpy).toHaveBeenCalledWith('__defineGetter__');
-    expect(consoleSpy).toHaveBeenCalledWith('__defineSetter__');
-    expect(consoleSpy).toHaveBeenCalledWith('hasOwnProperty');
-    expect(consoleSpy).toHaveBeenCalledWith('__lookupGetter__');
-    expect(consoleSpy).toHaveBeenCalledWith('__lookupSetter__');
-    expect(consoleSpy).toHaveBeenCalledWith('isPrototypeOf');
-    expect(consoleSpy).toHaveBeenCalledWith('propertyIsEnumerable');
-    expect(consoleSpy).toHaveBeenCalledWith('toString');
-    expect(consoleSpy).toHaveBeenCalledWith('valueOf');
-    expect(consoleSpy).toHaveBeenCalledWith('__proto__');
-    expect(consoleSpy).toHaveBeenCalledWith('toLocaleString');
-    expect(consoleSpy).toHaveBeenCalledWith('a');
-    expect(consoleSpy).toHaveBeenCalledWith('b');
-    expect(consoleSpy).toHaveBeenCalledWith('c');
-    expect(consoleSpy).toHaveBeenCalledWith('new');
+    let obj2 = Object.create(obj);
+    obj2.d = 4;
+
+    let expected = [
+        "constructor",
+        '__defineGetter__',
+        '__defineSetter__',
+        'hasOwnProperty',
+        '__lookupGetter__',
+        '__lookupSetter__',
+        'isPrototypeOf',
+        'propertyIsEnumerable',
+        'toString',
+        'valueOf',
+        '__proto__',
+        'toLocaleString',
+        'a',
+        'b',
+        'c',
+        'd'
+    ];
+    let i = 0;
+    for (const  prop of iterate.iterateProperties(obj2)) {
+        expect(prop).toEqual(expected[i]);
+        i++;
+    }
 });
 
-test('iterateProperties with simple object with inheritance with filter: enmuerable', () => { 
-    let obj = { a: 1, b: 2, c: 3 };
-    let obj2 = Object.create(obj);
-    obj2.a = 4;
-    obj2['new'] = 5;
-    const consoleSpy = jest.spyOn(console, 'log');
-    logGeneratedValues(iterate.iterateProperties(obj2, {enumerable: true}));
+test('iterateProperties with simple object with enumerable:true', () => { 
+    let obj = {
+        a: 1,
+        b: 2,
+        c: 3
+    };
 
-    expect(consoleSpy).toHaveBeenCalledWith('new');
-    expect(consoleSpy).toHaveBeenCalledWith('a');
-    expect(consoleSpy).toHaveBeenCalledWith('b');
-    expect(consoleSpy).toHaveBeenCalledWith('c');
-    
+    let expected = [
+        'a',
+        'b',
+        'c'
+    ];
+    let i = 0;
+    for (const  prop of iterate.iterateProperties(obj, {enumerable: true})) {
+        expect(prop).toEqual(expected[i]);
+        i++;
+    }
 });
 
-test('iterateProperties with simple object with inheritance with filter: writable true', () => { 
-    let obj = { a: 1, b: 2, c: 3 };
+test('iterateProperties with simple object with protoype chain, enumerable:true', () => { 
+    let obj = {
+        a: 1,
+        b: 2,
+        c: 3
+    };
+
     let obj2 = Object.create(obj);
-    obj2.a = 4;
-    Object.defineProperty(obj2, "writable_p", {
+    obj2.d = 4;
+
+    let expected = [
+        'a',
+        'b',
+        'c',
+        'd'
+    ];
+    let i = 0;
+    for (const  prop of iterate.iterateProperties(obj2, {enumerable: true})) {
+        expect(prop).toEqual(expected[i]);
+        i++;
+    }
+});
+
+test('iterateProperties with simple object with protoype chain, enumerable:false', () => { 
+    let obj = {
+        a: 1,
+        b: 2,
+        c: 3
+    };
+
+    let obj2 = Object.create(obj);
+    obj2.d = 4;
+
+    let expected = [
+        'constructor',
+        '__defineGetter__',
+        '__defineSetter__',
+        'hasOwnProperty',
+        '__lookupGetter__',
+        '__lookupSetter__',
+        'isPrototypeOf',
+        'propertyIsEnumerable',
+        'toString',
+        'valueOf',
+        '__proto__',
+        'toLocaleString'
+    ];
+    let i = 0;
+    for (const  prop of iterate.iterateProperties(obj2, {enumerable: false})) {
+        expect(prop).toEqual(expected[i]);
+        i++;
+    }
+});
+
+test('iterateProperties with simple object with protoype chain, writable:false', () => { 
+    let obj = {
+        a: 1,
+        b: 2,
+        c: 3
+    };
+
+    let obj2 = Object.create(obj);
+    Object.defineProperty(obj2, "d", {
         value: 10,
-        writable: true,
+        writable: false,
+        enumerable: true,
     });
-    const consoleSpy = jest.spyOn(console, 'log');
-    logGeneratedValues(iterate.iterateProperties(obj2, {writable: true}));
 
-    expect(consoleSpy).toHaveBeenCalledWith('constructor');
-    expect(consoleSpy).toHaveBeenCalledWith('__defineGetter__');
-    expect(consoleSpy).toHaveBeenCalledWith('__defineSetter__');
-    expect(consoleSpy).toHaveBeenCalledWith('hasOwnProperty');
-    expect(consoleSpy).toHaveBeenCalledWith('__lookupGetter__');
-    expect(consoleSpy).toHaveBeenCalledWith('__lookupSetter__');
-    expect(consoleSpy).toHaveBeenCalledWith('isPrototypeOf');
-    expect(consoleSpy).toHaveBeenCalledWith('propertyIsEnumerable');
-    expect(consoleSpy).toHaveBeenCalledWith('toString');
-    expect(consoleSpy).toHaveBeenCalledWith('valueOf');
-    expect(consoleSpy).toHaveBeenCalledWith('toLocaleString');
-    expect(consoleSpy).toHaveBeenCalledWith('a');
-    expect(consoleSpy).toHaveBeenCalledWith('b');
-    expect(consoleSpy).toHaveBeenCalledWith('c');
-    expect(consoleSpy).toHaveBeenCalledWith('writable_p');
+    let expected = [
+        'd'
+    ];
+    let i = 0;
+    for (const  prop of iterate.iterateProperties(obj2, {writable: false})) {
+        expect(prop).toEqual(expected[i]);
+        i++;
+    }
 });
 
+test('iterateProperties with more simple objects - mixed calls', () => { 
+    let obj1 = {
+        a1: 1,
+        b1: 2,
+        c1: 3,
+    };
 
-test('iterateProperties with simple object with inheritance with filter: writable false', () => { 
-    let obj = { a: 1, b: 2, c: 3 };
-    let obj2 = Object.create(obj);
-    Object.defineProperty(obj2, "not_writable_p", {
-        value: 10,
-        writable: true,
-        enumerable: true
+    let obj2 = {
+        a2: 11,
+        b2: 22,
+        c2: 33,
+    };
+
+    let expected = [
+        'a2',
+        'a1',
+        'b2',
+        'c2',
+        'b1',
+        'c1'
+    ];
+    let ip1 = iterate.iterateProperties(obj1, {enumerable: true});
+    let ip2 = iterate.iterateProperties(obj2, {enumerable: true});
+    expect(ip2.next().value).toEqual(expected[0]);
+    expect(ip1.next().value).toEqual(expected[1]);
+    expect(ip2.next().value).toEqual(expected[2]);
+    expect(ip2.next().value).toEqual(expected[3]);
+    expect(ip1.next().value).toEqual(expected[4]);
+    expect(ip1.next().value).toEqual(expected[5]);
+});
+
+test('iterateProperties with more simple objects - mixed calls', () => { 
+    let obj1 = {
+        a1: 1,
+        b1: 2,
+        c1: 3,
+    };
+
+    let obj2 = {
+        a2: 11,
+        b2: 22,
+        c2: 33,
+    };
+
+    let expected = [
+        'a2',
+        'a1',
+        'b2',
+        'c2',
+        'b1',
+        'c1'
+    ];
+    let ip1 = iterate.iterateProperties(obj1, {enumerable: true});
+    let ip2 = iterate.iterateProperties(obj2, {enumerable: true});
+    expect(ip2.next().value).toEqual(expected[0]);
+    expect(ip1.next().value).toEqual(expected[1]);
+    expect(ip2.next().value).toEqual(expected[2]);
+    expect(ip2.next().value).toEqual(expected[3]);
+    expect(ip1.next().value).toEqual(expected[4]);
+    expect(ip1.next().value).toEqual(expected[5]);
+});
+
+test('iterateProperties with invalid descriptor', () => { 
+    let obj = {
+        a: 1,
+        b: 2,
+        c: 3
+    };
+
+    let expected = [
+        "a",
+        "b",
+        "c"
+    ];
+    let i = 0;
+    for (const  prop of iterate.iterateProperties(obj, {nonsens: 'randomstring'})) {
+        expect(prop).toEqual(expected[i]);
+        i++;
+    }
+});
+
+test('iterateProperties with writable false', () => { 
+    let obj = {};
+    Object.defineProperty(obj, "prop", {
+        writable: false,
+        enumerable: false,
     });
-    console.log('------');
-    const consoleSpy = jest.spyOn(console, 'log');
-    logGeneratedValues(iterate.iterateProperties(obj2, {writable: false}));
 
-    expect(consoleSpy).toHaveBeenCalledWith('');
+    let i = 0;
+    for (const  prop of iterate.iterateProperties(obj, {writable: false})) {
+        expect(prop).toEqual('prop');
+        i++;
+    }
 });
 
-test('', () => { 
-    ;
-});
+test('iterateProperties with true -> false', () => { 
+    let obj = {};
+    Object.defineProperty(obj, "prop", {
+        writable: true,
+        enumerable: false,
+    });
 
-test('', () => { 
-    ;
-});
 
+    let i = 0;
+    for (const  prop of iterate.iterateProperties(obj, {enumerable: true})) {
+        expect(prop).toEqual('');
+        i++;
+    }
+});

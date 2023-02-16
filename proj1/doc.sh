@@ -26,7 +26,7 @@ else
     }
     ' > jsdoc.config.json
 
-    jsdoc -c jsdoc.config.json iterate.mjs 
+    jsdoc -c jsdoc.config.json --readme README.md iterate.mjs 
     exit 1
 fi
 

@@ -20,9 +20,16 @@
  * the filter specified by key
  */
 function filter_properties(obj, key, value) {
-    let filtered_p = Object.getOwnPropertyNames(obj).filter((property) => {
-        return Object.getOwnPropertyDescriptor(obj, property)[key];
-    });
+    
+    let filtered_p = [];
+    let current_obj_prop = Object.getOwnPropertyDescriptors(obj);
+
+    for (const [prop, desc] of Object.entries(current_obj_prop)) {
+        if (desc[key] === value) {
+            filtered_p.push(prop);
+        }
+    }
+
     return filtered_p;
 }
 
@@ -40,8 +47,6 @@ function filter_properties(obj, key, value) {
  */
 function withDescriptor(obj, descriptor, prop_names) { 
 
-    obj = Object.getPrototypeOf(obj);
-
     /**
      * @brief If the original object is on the top of the prototype chain,
      * return the array of properties of the original object.
@@ -58,10 +63,8 @@ function withDescriptor(obj, descriptor, prop_names) {
      */
     while (obj !== null) {
         Object.entries(descriptor).forEach(([key, value]) => {
-            if (value) {
-                let to_concat = filter_properties(obj, key, value);
-                prop_names = to_concat.concat(prop_names);
-            }
+            let to_concat = filter_properties(obj, key, value);
+            prop_names = to_concat.concat(prop_names);
         });
         obj = Object.getPrototypeOf(obj);
     }
@@ -79,8 +82,6 @@ function withDescriptor(obj, descriptor, prop_names) {
  * Sorted by the order of the prototype chain - original object's properties are listed last.
  */
 function withoutDescriptor(obj, prop_names) {
-
-    obj = Object.getPrototypeOf(obj);
 
     /**
      * @brief If the original object is on the top of the prototype chain,
@@ -127,7 +128,7 @@ export function* iterateProperties(obj = undefined, descriptor = {}) {
         throw new Error('Object has to be defined.');
     }
 
-    let prop_names = Object.getOwnPropertyNames(obj);
+    let prop_names = [];
 
     const is_desc_empty = !Object.keys(descriptor).length;
 
