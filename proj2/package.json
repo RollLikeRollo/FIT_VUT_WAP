@@ -1,0 +1,27 @@
+{
+  "name": "wap-proj2",
+  "version": "1.0.0",
+  "description": "second project to WAP course at FIT BUT Brno",
+  "main": "index.js",
+  "scripts": {
+    "test": "\"echo \\\"Error: no test specified\\\" && exit 1\"",
+    "start": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RollLikeRollo/FIT_VUT_WAP.git"
+  },
+  "author": "Jan Zboril <xzbori20@stud.fit.vutbr.cz>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RollLikeRollo/FIT_VUT_WAP/issues"
+  },
+  "homepage": "https://github.com/RollLikeRollo/FIT_VUT_WAP#readme",
+  "dependencies": {
+    "ejs": "^3.1.8",
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
+  }
+}
