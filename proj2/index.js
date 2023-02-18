@@ -1,6 +1,10 @@
 const express = require("express");
 const app = express();
 const port = 8000;
+const styles = require(__dirname + 'public/styles');
+const scripts = require(__dirname + 'public/scripts');
+const images = require(__dirname + 'public/images');
+const root = require(__dirname + '/');
 
 // vars
 const title = {
@@ -18,10 +22,11 @@ const fitlogo = 'images/VUT-FIT-logo.png';
 
 
 // static files
-app.use(express.static('public'));
-app.use('/styles', express.static(__dirname + 'public/styles'));
-app.use('/scripts', express.static(__dirname + 'public/scripts'));
-app.use('/images', express.static(__dirname + 'public/images'));
+app.use('/', root);
+app.use('/styles', styles);
+app.use('/scripts', scripts);
+app.use('/images', images);
+app.use('/home', express.static(__dirname + 'public/home'));
 
 
 // set views
@@ -48,6 +53,8 @@ app.get('/xss', (req, res) => {
 });
 
 
+
+port = process.env.PORT || 8000;
 app.listen(port, () => {
   console.info(`Example app listening on port ${port}!`);
 });
