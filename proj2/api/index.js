@@ -18,15 +18,22 @@ const fitlogo = 'images/VUT-FIT-logo.png';
 
 
 // static files
-app.use(express.static('public'));
-app.use('/styles', express.static(__dirname + 'public/styles'));
-app.use('/scripts', express.static(__dirname + 'public/scripts'));
-app.use('/images', express.static(__dirname + 'public/images'));
+// app.use(express.static('public'));
+// app.use('/styles', express.static(__dirname + 'public/styles'));
+// app.use('/scripts', express.static(__dirname + 'public/scripts'));
+// app.use('/images', express.static(__dirname + 'public/images'));
 
 
 // set views
 app.set('views', './views');
 app.set('view engine', 'ejs');
+
+app.get('/api', (req, res) => {
+  const path = `/api/item/${v4()}`;
+  res.setHeader('Content-Type', 'text/html');
+  res.setHeader('Cache-Control', 's-max-age=1, stale-while-revalidate');
+  res.end(`Hello! Go to item: <a href="${path}">${path}</a>`);
+});
 
 app.get('', (req, res) => { 
   res.render('index', { title,author,school,year,fitlogo } );
