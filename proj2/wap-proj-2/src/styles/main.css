@@ -1,0 +1,138 @@
+:root {
+    --fitblue: #00a9e0;
+    --fitred: #e4002b;
+  }
+
+body {
+    text-align: left;
+    align-items: center;
+}
+
+html {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    color: #1f1f1f;
+    background-image: linear-gradient(to bottom, rgb(29, 29, 29) , rgb(12, 12, 12));
+}
+
+.title{
+    font-size: 20px;
+    font-weight: bold;
+    color: var(--fitblue);
+    text-align: left;
+    margin-top: 20px;
+    margin-bottom: 5px;
+    padding: 5px;
+    display: flex;
+    justify-content: space-between;
+    padding-top: 10px;
+}
+
+.title-logo{
+    margin-left: auto;
+    margin-right: 10px;
+    align-items: end;
+    height: 50px;
+    display: inline-block;
+    vertical-align: text-top;
+}
+
+.title-text{
+    display: inline-block;
+    margin-left: 10px;
+    margin-top: 10px;
+    font-size: 30px;
+    font-weight: bold;
+    color: var(--fitblue);
+    text-align: left;
+    margin-bottom: 20px;
+    padding: 5px;
+    vertical-align: middle;
+}
+
+ul.topnav {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+    border-radius: 10px;
+}
+  
+ul.topnav li {
+    float: left;
+}
+  
+ul.topnav li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+  
+ul.topnav li a:hover:not(.active) {
+    background-color: var(--fitred);
+    border-color: var(--fitblue);
+    border-style: solid;
+    border-width: 0px 0px 3px 0px;
+}
+  
+ul.topnav li a.active {
+    background-color: var(--fitblue);
+    border-color: var(--fitblue);
+    border-style: solid;
+    border-width: 0px 0px 3px 0px;
+}
+  
+ul.topnav li.right {
+    float: right;
+}
+  
+@media screen and (max-width: 600px) {
+    ul.topnav li.right, 
+    ul.topnav li {float: none;}
+}
+
+.page-wrapper {
+    width: 1170px;
+    max-width: 100%;
+    margin: 0 auto;
+    padding-left: 16px;
+    padding-right: 16px;
+    background-color: white;
+    border-radius: 20px;
+    margin-bottom: 20px;
+}
+
+.page-wrapper.footer {
+    max-width: max-content;
+    min-width: 90%;
+    margin-right: 0px;
+    margin-bottom: 20px;
+    height: 50px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    color: white;
+    float: left;
+    margin-left: 10%;
+}
+
+.footer hr {
+    margin-top: 10px;
+    color: black;
+}
+
+.footer p {
+    padding-bottom: 10px;
+    color: black;
+    align-items: center;
+    text-align: center;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+
