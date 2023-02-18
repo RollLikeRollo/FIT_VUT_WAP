@@ -2,10 +2,13 @@
   "name": "wap-proj2",
   "version": "1.0.0",
   "description": "second project to WAP course at FIT BUT Brno",
-  "main": "index.js",
+  "main": "app.js",
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "scripts": {
     "test": "\"echo \\\"Error: no test specified\\\" && exit 1\"",
-    "start": "nodemon app.js"
+    "start": "node app.js"
   },
   "repository": {
     "type": "git",
