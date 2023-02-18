@@ -25,8 +25,8 @@ app.use('/scripts', express.static(__dirname + '/public/scripts'));
 app.use('/images', express.static(__dirname + '/public/images'));
 
 // set views
-app.set('views', './views');
-app.set('view engine', 'ejs');
+app.use('views', './views');
+app.use('view engine', 'ejs');
 
 app.get('/api', (req, res) => {
   const path = `/api/item/${v4()}`;
