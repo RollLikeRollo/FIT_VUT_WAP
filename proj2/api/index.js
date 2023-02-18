@@ -18,10 +18,10 @@ const fitlogo = 'images/VUT-FIT-logo.png';
 
 
 // static files
-// app.use(express.static('public'));
-// app.use('/styles', express.static(__dirname + 'public/styles'));
-// app.use('/scripts', express.static(__dirname + 'public/scripts'));
-// app.use('/images', express.static(__dirname + 'public/images'));
+app.use(express.static('public'));
+app.use('/styles', express.static(__dirname + 'public/styles'));
+app.use('/scripts', express.static(__dirname + 'public/scripts'));
+app.use('/images', express.static(__dirname + 'public/images'));
 
 
 // set views
