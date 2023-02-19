@@ -2,13 +2,13 @@
   "name": "wap-proj2",
   "version": "1.0.0",
   "description": "second project to WAP course at FIT BUT Brno",
-  "main": "app.js",
+  "main": "index.js",
   "engines": {
     "node": "14.x"
   },
   "scripts": {
     "test": "\"echo \\\"Error: no test specified\\\" && exit 1\"",
-    "start": "node app.js"
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
@@ -21,8 +21,10 @@
   },
   "homepage": "https://github.com/RollLikeRollo/FIT_VUT_WAP#readme",
   "dependencies": {
+    "dotenv": "16.0.3",
     "ejs": "^3.1.8",
-    "express": "^4.18.2"
+    "express": "^4.18.2",
+    "mongoose": "6.9.2"
   },
   "devDependencies": {
     "nodemon": "^2.0.20"

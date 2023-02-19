@@ -1,8 +1,8 @@
+require('dotenv').config();
 const express = require("express");
 
-
 const app = express();
-let port = 8000;
+const port = process.env.PORT || 8000;
 
 // vars
 const title = {
@@ -25,18 +25,11 @@ app.use('/scripts', express.static(__dirname + '/public/scripts'));
 app.use('/images', express.static(__dirname + '/public/images'));
 
 // set views
-app.use('views', './views');
-app.use('view engine', 'ejs');
-
-app.get('/api', (req, res) => {
-  const path = `/api/item/${v4()}`;
-  res.setHeader('Content-Type', 'text/html');
-  res.setHeader('Cache-Control', 's-max-age=1, stale-while-revalidate');
-  res.end(`Hello! Go to item: <a href="${path}">${path}</a>`);
-});
+app.set('views', './views');
+app.set('view engine', 'ejs');
 
 app.get('', (req, res) => { 
-  res.render('index', { title,author,school,year,fitlogo } );
+  res.render('root', { title,author,school,year,fitlogo } );
 });
 
 app.get('/about', (req, res) => { 
@@ -48,8 +41,8 @@ app.get('/xss', (req, res) => {
 });
 
 
-
-port = process.env.PORT || 8000;
 app.listen(port, () => {
-  console.info(`Example app listening on port ${port}!`);
+  console.info(`App listening on port ${port}!`);
 });
+
+module.exports = app;
