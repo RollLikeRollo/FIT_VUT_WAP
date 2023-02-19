@@ -10,27 +10,24 @@
     <body class="body">
         <div class="page-wrapper">
             <header class="title">
-                <h1><%= title.title %></h1>
+                <h1 class='title-text'><%= title.title %></h1>
+                <img class='title-logo' src= <%-fitlogo%>   alt="FIT">
             </header>
             <nav>
                 <ul class='topnav'>
-                    <li><a  href="/">Home</a></li>
+                    <li><a href="/">Home</a></li>
                     <li><a class="active"  href="/xss">XSS</a></li>
-                    <li><a href="/about">About</a></li>
+                    <li><a href="/clickjacking">Clickjacking</a></li>
+                    <li><a href="/csrf">CSRF</a></li>
+                    <li style="float:right"><a href="/about">About</a></li>
                 </ul>
             </nav>
             <main>
                 <h1>Home!</h1>
                 <p><%= title %></p>
-                <img src="/images/horner.png"   alt="Horner">
+                <img src="/images/horner.png"   alt="Horner"  width="100%">
             </main>
-            <footer class="footer">
-                <hr> 
-                <p>   
-                    <%= author %>, © <%= year %> <br>
-                    <%- school %>
-                </p>
-            </footer>
+            <%- include('./_footer'); %>
         </div>
     </body>
 </html>

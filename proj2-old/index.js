@@ -13,7 +13,10 @@ const title = {
     xss: 'XSS'
   }
 };
-const author = 'Jan Zbořil';
+const author = {
+  name: 'Jan Zbořil',
+  email: 'xzbori20@stud.fit.vutbr.cz'
+  };
 const school = 'Brno University of Technology, <br> Faculty of Information Technology';
 const year = '2023';
 const fitlogo = 'images/VUT-FIT-logo.png';
@@ -33,11 +36,19 @@ app.get('', (req, res) => {
 });
 
 app.get('/about', (req, res) => { 
-  res.render('about', { title,author,school,year });
+  res.render('about', { title,author,school,year,fitlogo });
 });
 
 app.get('/xss', (req, res) => { 
-  res.render('xss', { title,author,school,year });
+  res.render('xss', { title,author,school,year,fitlogo });
+});
+
+app.get('/clickjacking', (req, res) => { 
+  res.render('clickjacking', { title,author,school,year,fitlogo });
+});
+
+app.get('/csrf', (req, res) => { 
+  res.render('csrf', { title,author,school,year,fitlogo });
 });
 
 
