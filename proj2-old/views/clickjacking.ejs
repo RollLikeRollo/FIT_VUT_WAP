@@ -1,8 +1,11 @@
 <!DOCTYPE html>
 <html lang="en" class="html">
+    <script src="http://code.jquery.com/jquery-3.1.0.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="Content-Security-Policy" content="form-action 'self'" />
         <title><%- title.title %> | <%- title.subtitle.xss %></title>
         <link rel="stylesheet" href="/styles/main.css">
         <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
@@ -23,9 +26,21 @@
                 </ul>
             </nav>
             <main>
-                <h1>Home!</h1>
-                <p><%= title %></p>
-                <img src="/images/horner.png"   alt="Horner"  width="100%">
+                <h1>Clickjacking</h1>
+
+                <form method="post" id="user-add-form">
+                    <label for="username">Username:</label><br>
+                    <input type="text" id="username" name="username" placeholder="username"><br>
+                    <button type="button">Create user</button>
+                </form>
+
+
+                <button id='ld-users-butt' onclick="fetchList()" name="ld-users-butt">Load users</button>
+                <script src="api/list_users.js"></script>
+
+                <br/>list of users:
+                <ul id="usr-list"></ul>
+
             </main>
             <%- include('./_footer'); %>
         </div>
