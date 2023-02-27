@@ -2,6 +2,7 @@
     --fitblue: #00a9e0;
     --fitblue-darker: #004e68;
     --fitred: #e4002b;
+    --green: #028b02;
   }
 
 body {
@@ -165,6 +166,25 @@ ul.topnav li.right {
 img {
     max-width: 90%;
     height: auto;
+}
+
+.note{
+    color: var(--fitblue);
+    font-size: 12px;
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 5px;
+}
+
+.err-note{
+    color: var(--fitred);
+    border: 3px solid;
+}
+
+.success-note{
+    color: var(--green);
+    border: 3px solid;
 }
 
 

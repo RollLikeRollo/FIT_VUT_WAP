@@ -1,6 +1,11 @@
-require('dotenv').config();
-var fs = require('fs');
-const express = require("express");
+import express from 'express';
+import "./loadEnvironment.mjs";
+import fileDirName from './file_dir_name.mjs';
+import db from './db_conn.mjs';
+import cookieParser from 'cookie-parser';
+import session from 'express-session';
+
+const { __dirname, __filename } = fileDirName(import.meta);
 
 const app = express();
 const port = process.env.PORT || 8000;
@@ -29,6 +34,7 @@ app.use('/styles', express.static(__dirname + '/public/styles'));
 app.use('/scripts', express.static(__dirname + '/public/scripts'));
 app.use('/images', express.static(__dirname + '/public/images'));
 app.use('/api', express.static(__dirname + '/api'));
+app.use('/index', express.static(__dirname + '/'));
 
 // set views
 app.set('views', './views');
@@ -40,6 +46,17 @@ app.use(
     extended: true,
   })
 );
+
+// --- SESSION ---
+app.use(cookieParser());
+app.use(session({
+  secret: '9ZtMu3XMqzewa7vBLci66g6t',
+  cookie: {
+    maxAge: 60000,
+    sameSite : 'strict'
+  },
+  resave: false
+}));
 
 // --- METHODS ---
 // --- Root ---
@@ -79,10 +96,6 @@ app.post('/clickjacking',function(req,res){
   res.render('clickjacking', { title,author,school,year,fitlogo});
 });
 
-app.get('/api/list_users.js', (req, res) => { 
-  
-});
-
 
 // --- CSRF ---
 
@@ -90,10 +103,47 @@ app.get('/csrf', (req, res) => {
   res.render('csrf', { title,author,school,year,fitlogo });
 });
 
+// --- API ---
+
+app.get('/api/list_users', async (req, res) => {
+  let collection = await db.collection("users");
+  let results = await collection.find({})
+    .limit(50)
+    .toArray();
+
+  res.send(results).status(200);
+});
+
+app.post('/api/add_user', async (req, res) => { 
+  let collection = await db.collection("users");
+  
+  let users = await collection.find(req.body).toArray();
+  if (users.length > 0) { 
+    res.send({ 'err': ' User already exists' }).status(400);
+    return;
+  }
+
+  let newDocument = req.body;
+  newDocument.date = new Date();
+  let result = await collection.insertOne(newDocument);
+  res.send(result).status(204);
+});
+
+// app.post('/api/drop_users', async (req, res) => { 
+//   let collection = await db.collection(req.body.collection);
+//   let result = await collection.drop();
+//   res.send(result).status(204);
+// });
+
+app.get('/api/get_session', async (req, res) => { 
+  res.send({ session: req.sessionID });
+});
+
+
 // --- APP ---
 
 app.listen(port, () => {
   console.info(`App listening on port ${port}!`);
 });
 
-module.exports = app;
+export default app;
