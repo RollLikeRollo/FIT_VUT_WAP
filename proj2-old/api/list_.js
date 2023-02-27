@@ -27,6 +27,13 @@ async function fetchList() {
 
 };
 
+const btn = document.getElementById("user-created-button");
+btn.addEventListener('click', async (e) => { 
+    let sec = document.getElementById("usr-created-sec");
+    sec.style.display = "none";
+});
+
+
 const form = document.getElementById("user-add-button");
 form.addEventListener('click', async (e) => { 
     const form = document.getElementById("user-add-form");
@@ -49,16 +56,22 @@ form.addEventListener('click', async (e) => {
       }).then(resp => resp.json());
     console.log(results);
 
+    console.error(results.err + '!!!');
+    s = document.getElementById("usr-created-sec");
+    s.style.display = "block";
+    s_ch = s.children;
+    s_ch[0].textContent = results.err;
+    s_ch[1].textContent = 'OK';
+    if(s_ch[1].style.display === "none"){
+        s_ch[1].style.display = "block";
+    };
+
     if (results.err) {
-        console.error(results.err + '!!!');
-        p = document.getElementById("usr-created-note");
-        p.textContent = results.err;
-        p.classList.add("err-note");
-        p.classList.remove("success-note");
+        s_ch[0].classList.remove("success-note");
+        s_ch[0].classList.add("err-note");
     } else { 
-        p = document.getElementById("usr-created-note");
-        p.textContent = "User created!";
-        p.classList.add("success-note");
-        p.classList.remove("err-note");
+        s_ch[0].textContent = "User " + form['username'].value + " created!";
+        s_ch[0].classList.remove("err-note");
+        s_ch[0].classList.add("success-note");
     }
 });
