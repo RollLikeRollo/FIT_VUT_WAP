@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Reflected XSS</title>
+    <link rel="stylesheet" href="/styles/xss_frame.css">
+    <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+    <script src="/api/xss_reflected_frame.js"></script>
+</head>
+<body>
+    <div class="example-controls">
+        <span class="url">URL</span>
+        <form action="/xss_reflected/frame" method="GET">
+        <input id="search_bar" class="urlbar" type="text" value="<%- full_url %>">
+        <input class="urlbutton" type="Submit" value="Go" onclick="sendReq()">
+    </div>
+    <div class="frame-content">
+        <h1><i>Ye Daily Palantír</i></h1>
+        <h1> Breaking News! Isengard Unleashed</h1>
+        <p> Rohan spies confirm the movement of the White Hand.
+            Saruman did not want to comment on the matter.
+        </p>
+        <hr>
+        <h3>
+            Search for more news: 
+        </h3>
+        <form action="/xss_reflected/frame" method="GET">
+        <input id='search' name="search" type="text">
+        <input type="submit" value="Search">
+        <p>
+            Your last search was: <% if (typeof search_result !== 'undefined') {
+                    out = search_result;
+                } else {
+                    out = 'nothing';
+                }
+                %>
+            <b><%- out %></b>
+        </p>
+    </div>
+</body>
+</html>

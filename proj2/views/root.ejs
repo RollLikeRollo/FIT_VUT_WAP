@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" class="html">
+    <!-- <script src="/api/session-p.js" defer></script> -->
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title><%- title.title %> | <%- title.subtitle.index %></title>
+        <link rel="stylesheet" href="/styles/main.css">
+        <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+    </head>
+    <body class="body">
+        <div class="page-wrapper">
+            <header class="title">
+                <h1 class='title-text'><%= title.title %></h1>
+                <img class='title-logo' src= <%-fitlogo%>   alt="FIT">
+            </header>
+            <p id='session-p' style='text-align:end' ></p>
+            <nav>
+                <ul class='topnav'>
+                    <li><a class="active"  href="/">Home</a></li>
+                    <li><a href="/xss">XSS</a></li>
+                    <li><a href="/clickjacking">Clickjacking</a></li>
+                    <li><a href="/csrf">CSRF</a></li>
+                    <li style="float:right"><a href="/about">About</a></li>
+                </ul>
+            </nav>
+            <main class="main">
+                <section>
+                    <div class="hero">
+                        <h1>Learn about common vulnerabilities today!</h1>
+                        <p>Tommorow might be late...</p>
+                    </div>
+                </section>
+            </main>
+            <%- include('./_footer'); %>
+        </div>
+    </body>
+</html>

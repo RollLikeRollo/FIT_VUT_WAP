@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" class="html">
+    <!-- <script src="/api/session-p.js" defer></script> -->
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title><%- title.title %> | <%- title.subtitle.about %></title>
+        <link rel="stylesheet" href="/styles/main.css">
+        <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+    </head>
+    <body class="body">
+        <div class="page-wrapper">
+            <header class="title">
+                <h1 class='title-text'><%= title.title %></h1>
+                <img class='title-logo' src= <%-fitlogo%>   alt="FIT">
+            </header>
+            <p id='session-p' style='text-align:end' ></p>
+            <nav>
+                <ul class='topnav'>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/xss">XSS</a></li>
+                    <li><a href="/clickjacking">Clickjacking</a></li>
+                    <li><a href="/csrf">CSRF</a></li>
+                    <li style="float:right"><a class="active" href="/about">About</a></li>
+                </ul>
+            </nav>
+            <main class="main">
+                <div style="text-align: center; padding: 5px">
+                    This website is a project for the WAP coures at FIT BUT in Brno, Czech Republic.
+                    <br>
+                    <a href="https://www.fit.vut.cz/study/course/259388/.en">WAP course info page</a>
+                    <br>
+                    Created by: <%- author.name %>, <a href="mailto:<%-author.email%>"><%- author.email %></a>
+                    <br>
+                    Submission date: 23. 4. 2023
+                    <br>
+
+                </div>
+            </main>
+            <%- include('./_footer'); %>
+        </div>
+    </body>
+</html>

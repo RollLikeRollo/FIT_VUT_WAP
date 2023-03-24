@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en" class="html">
+    <script src="http://code.jquery.com/jquery-3.1.0.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <!-- <script type="module" src="/api/session-p.mjs" defer></script> -->
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="Content-Security-Policy" content="form-action 'self'" />
+        <title><%- title.title %> | <%- title.subtitle.xss %></title>
+        <link rel="stylesheet" href="/styles/main.css">
+        <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+    </head>
+    <body class="body">
+        <div class="page-wrapper">
+            <header class="title">
+                <h1 class='title-text'><%= title.title %></h1>
+                <img class='title-logo' src= <%-fitlogo%>   alt="FIT">
+            </header>
+                <p id='session-p' style='text-align:end' ></p>
+            <nav>
+                <ul class='topnav'>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/xss">XSS</a></li>
+                    <li><a class="active" href="/clickjacking">Clickjacking</a></li>
+                    <li><a href="/csrf">CSRF</a></li>
+                    <li style="float:right"><a href="/about">About</a></li>
+                </ul>
+            </nav>
+            <main>
+                <h1>Clickjacking</h1>
+                <div>
+                    <p>
+                        Clickjacking is a technique of tricking a user into clicking on a button or 
+                        link on a different page than they were expecting. This is done by placing the button or 
+                        link on top of a transparent or opaque layer, and tricking the user into clicking on 
+                        the button or link. Users are unaware that they are clicking on a button or link on a different page - the transparent
+                        one.
+                    </p>
+                    <p>
+                        This method uses the <code>iframe</code> tag to embed a page into another page. The embedded
+                        webpage is set to be transparent, and the page that embeds it is set to be opaque.
+                    </p>
+                    <p>
+                        Now for a little demo. Try to create few users and then proceed to the lower section of the page.
+                    </p>
+                    <hr/>
+                </div>
+                <div class="user-div-form">
+                    <div class="user-div-form-ch left">
+                        <form method="post" id="user-add-form">
+                            <label for="username">Username:</label><br>
+                            <input type="text" id="username" name="username" placeholder="username"><br>
+                            <button id='user-add-button' type="button">Create user</button>
+                        </form>
+    
+                        <section id='usr-created-sec'>
+                            <p id="usr-created-note" class="note" style="display:none"></p>
+                            <button class="good" id="user-created-button" style="display:none"></button>
+                        </section>
+                    </div>
+                    <div class="user-div-form-ch right">
+                        <button id='ld-users-butt' onclick="fetchList()" name="ld-users-butt">Show users</button>
+                        <button id='ld-users-butt' onclick="hideList()" name="hd-users-butt">Hide users</button>
+                        <button id='ld-users-butt' class="bad" onclick="makeDefault()" name="del-users-butt">Load default</button>
+                        <script src="api/list_session.js"></script>
+    
+                        <br/>
+                        <div id="usr-list"></div>
+                    </div>
+                </div>
+
+                <div>
+                    <hr>
+                    <p>
+                        There is a button below for sending a small sum of millions of dollars to a specific user.
+                        Try to click on it and see what happens.
+                    </p>
+                    <hr>
+                </div>
+
+                <div class="clickjacking-iframe-wrapper">
+                    <div class="clickjacking-iframe-overlay">
+                        <form method="post" id="clickjacking-form" autocomplete="off">
+                            <label for="username">Username:</label><br>
+                            <div class="autocomplete">
+                                <input id="username-select-input" name="username-select" type="text" placeholder="Username">
+                            </div>
+
+                            <div class="decoy-button">
+                                Send 1 million dollars to user
+                            </div>
+                        </form>
+                    </div>
+                    <iframe id="clickjacking-iframe-obj" src="/clickjacking/iframe" class="clickjacking-iframe"></iframe>
+                    
+
+                    <div id="after-clickjacking" hidden="true">
+                        <p>
+                            Oh no! What have just happened? Well, the selected user is now deleted.
+                            You have just become a victim to the clickjacking attack. You did not in fact 
+                            click on the button to send money, but the hidden 'delete account' button included
+                            in the hidden <code>iframe</code> element. The send money is not even real button! Inspect it via
+                            the web Inspector. Click on the "Show users" button to verify, that
+                            the user has been deleted. Try to move the slider below to reveal
+                            the hidden <code>iframe</code>.
+                        </p>
+                        <div class="slide-clickjacking">
+                            <input type="range" min="0" max="100" value="0" class="slider"  id="slide-clickjacking-slider">
+                        </div>
+                        <p>
+                            The page in iframe is a different page than the one you see right now.
+                            It's a page for deleting user. This is just a demonstration. However, if an
+                            attacker could embed a page that looks like a login page, and trick you into
+                            giving him your account details. Attacker can embed the iframe using the 
+                            XSS for example.
+                        </p>
+                        <p>
+                            The best form of defense is to block any <code>iframe</code> elements from loading.
+                            This can be done by setting the <code>Content-Security-Policy</code> such as it
+                            either blocks all <code>iframe</code> elements, or only allows them from specific
+                            sources. You can lear more here:
+                            <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/frame-ancestors">MDN</a>
+                            <a href="https://cheatsheetseries.owasp.org/cheatsheets/Clickjacking_Defense_Cheat_Sheet.html">OWASP Cheat Sheet Series</a>
+                        </p>
+                        <p>
+                            The same webpage as this one is located at the following link. However, it is
+                            protected by the <code>Content-Security-Policy</code> that blocks all <code>iframe</code> elements.
+                            <a href="/clickjacking_protected">webpage protected against clickjacking</a>
+                        </p>
+                        <p>
+                            If you open that page and try to click on the 'send money' button,
+                            no user will be deleted. That is because the 'delete user' page, which was
+                            embedded in the <code>iframe</code> element, is not loaded. The delete user page
+                            is protected by the <code>Content-Security-Policy', "frame-ancestors 'none';</code> header. Thus,
+                            it cannot be displayed anywehere on the internet inside an iframe. If you open the Inspector
+                            and look into the console, you will see the following error:
+                            <img src="/images/iframe_protection.png" alt="clickjacking_protected">
+                        </p>
+                    </div>
+                </div>
+
+            </main>
+            <%- include('./_footer'); %>
+        </div>
+    </body>
+</html>

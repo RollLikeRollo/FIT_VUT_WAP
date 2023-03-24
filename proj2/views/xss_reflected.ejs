@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" class="html">
+    <!-- <script src="/api/session-p.js" defer></script> -->
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title><%- title.title %> | <%- title.subtitle.xss %></title>
+        <link rel="stylesheet" href="/styles/xss.css">
+        <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+    </head>
+    <body class="body">
+        <div class="page-wrapper">
+            <header class="title">
+                <h1 class='title-text'><%= title.title %></h1>
+                <img class='title-logo' src= <%-fitlogo%>   alt="FIT">
+            </header>
+            <p id='session-p' style='text-align:end' ></p>
+            <nav>
+                <ul class='topnav'>
+                    <li><a href="/">Home</a></li>
+                    <li><a class="active"  href="/xss">XSS</a></li>
+                    <li><a href="/clickjacking">Clickjacking</a></li>
+                    <li><a href="/csrf">CSRF</a></li>
+                    <li style="float:right"><a href="/about">About</a></li>
+                </ul>
+            </nav>
+            <main class="main">
+                <div class="xss-wrapper">
+                    <div class="xss-wrapper-left">
+                        <h2>Reflected XSS</h2>
+                        <p>
+                            Reflected XSS is a type of XSS attack where
+                            the malicious code is sent to the server
+                            in the form of a request. The server then
+                            reflects the malicious code back to the user. 
+                            It is the simpler version of XSS attack.
+                        </p>
+                        <p>
+                            Attacker then sends a malicious link with the
+                            reflected XSS to a victim who believes it to be
+                            the original website. The code is often visible
+                            in the URL of the page, so more observant users
+                            may not be fooled.
+                        </p>
+                        <h3>The lab</h3>
+                        <p>
+                            In this left column, you'll see a lab instructions.
+                            In the right column, you'll have to try to carry out
+                            a reflected XSS attack.
+                        </p>
+                    </div>
+                    <div class="xss-wrapper-right">
+                        <div class="example-frame-cls">
+                            <iframe src="/xss_reflected/frame" frameborder="0"></iframe>
+                        </div>
+                    </div>
+                </div>
+            </main>
+            <%- include('./_footer'); %>
+        </div>
+    </body>
+</html>

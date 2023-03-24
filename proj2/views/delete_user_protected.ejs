@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="Content-Security-Policy" content="form-action 'self'" />
+        <title><%- title.title %> | <%- title.subtitle.xss %></title>
+        <link rel="stylesheet" href="/styles/main.css">
+        <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+    </head>
+    <body class="body">
+        <div>
+            <button class="decoy_button bad" id="btn" onclick="clickjack()">XXXXXXXXXXXXXXXXXXXXXXXX</button>
+            <script src="/api/clickjack.js"></script>
+            <section id='usr-deleted-sec'>
+                <p id="usr-created-note" class="note" style="display:none"></p>
+                <button class="bad" id="user-deleted-button" style="display:none"></button>
+            </section>
+        </div>
+    </body>
+</html>
+
+<!-- Send 1 million dollars to user
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX -->
