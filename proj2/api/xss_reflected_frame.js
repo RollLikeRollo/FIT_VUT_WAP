@@ -19,3 +19,4 @@ async function sendReq() {
     document.write(data);
     document.close();
 }
+

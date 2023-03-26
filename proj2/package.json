@@ -4,7 +4,7 @@
   "description": "second project to WAP course at FIT BUT Brno",
   "main": "index.mjs",
   "engines": {
-    "node": "14.x"
+    "node": "18.x"
   },
   "scripts": {
     "test": "\"echo \\\"Error: no test specified\\\" && exit 1\"",
@@ -19,14 +19,11 @@
   "bugs": {
     "url": "https://github.com/RollLikeRollo/FIT_VUT_WAP/issues"
   },
-  "homepage": "https://github.com/RollLikeRollo/FIT_VUT_WAP#readme",
   "dependencies": {
-    "cookie-parser": "^1.4.6",
     "dotenv": "16.0.3",
     "ejs": "^3.1.8",
     "express": "^4.18.2",
     "express-session": "^1.17.3",
-    "fs": "^0.0.1-security",
     "mongoose": "6.9.2"
   },
   "devDependencies": {

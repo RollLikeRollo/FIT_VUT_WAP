@@ -7,6 +7,7 @@
         <title><%- title.title %> | <%- title.subtitle.xss %></title>
         <link rel="stylesheet" href="/styles/xss.css">
         <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+        <script src="/api/xss_fade.js"></script>
     </head>
     <body class="body">
         <div class="page-wrapper">
@@ -48,6 +49,69 @@
                             In the right column, you'll have to try to carry out
                             a reflected XSS attack.
                         </p>
+                        <ul>
+                           <li class="fadeMe" id="li_1">
+                               Play around with the input field and see what happens.
+                               <p>
+                                    Look for the URL in the address bar. You'll see that
+                                    the input is reflected both in the URL and in the 
+                                    "Your last search" message.
+
+                                    Try to change the URL query parameter to something
+                                    else. You'll see that the message changes as well.
+                               </p> 
+                               <button class="reverse" onclick="fade(0)"> Next </button>
+                           </li>
+                           <li class="fadeMe" id="li_2" hidden>
+                            Ask yourself: what happens if you put a script tag in the input field?
+                            <p>
+                                Does the script run or does the website block it by
+                                escaping, sanitizing or filtering the input?
+                            </p> 
+                            <p>
+                                If the script runs, you've discovered a reflected XSS vulnerability
+                                in this site.
+                            </p>
+                            <p>
+                                Hint: <br/>
+                                <code>
+                                    &lt;script&gt;alert('Hello World!')&lt;/script&gt;
+                                </code>
+                            </p>
+                            <button class="reverse" onclick="fade(1)"> Next </button>
+                        </li>
+                        <li class="fadeMe" id="li_3" hidden>
+                            <p>
+                                Now you can craft a malicious link with a script and send it to a victim.
+                                The script ccan steal users cookies, redirect them to a malicious site,
+                                show them a fake login page, or anything else you can think of.
+                            </p>
+                            <p>
+                                Try to craft a malicious link which will redirect the victim to a REALLY DANGEROUS
+                                MALICIOUS site.
+                            </p>
+                            <p>
+                                Hint: <br/>
+                                <code>
+                                    
+                                    &lt;script&gt;
+                                    var last_elem_body = document.getRootNode().<br/>lastChild.lastChild.lastChild;
+                                    var rickroll = document.createElement("iframe");
+                                    rickroll.setAttribute("src", "https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1");
+                                    rickroll.setAttribute("width", "500");
+                                    rickroll.setAttribute("height", "500");
+                                    rickroll.setAttribute("frameborder", "0");
+                                    rickroll.setAttribute("allow", "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture");
+                                    rickroll.setAttribute("allowfullscreen", "");
+                                    last_elem_body.appendChild(rickroll);
+                                    &lt;/script&gt;
+                                </code><br/>
+
+                                Now copy the link and send it to anyone!
+                            </p>
+                            <button class="reverse" onclick="fade(2)"> Back to start </button>
+                        </li>
+                        </ul>
                     </div>
                     <div class="xss-wrapper-right">
                         <div class="example-frame-cls">

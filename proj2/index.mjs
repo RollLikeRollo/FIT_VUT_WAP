@@ -1,9 +1,9 @@
 import express from 'express';
-import "./loadEnvironment.mjs";
+// import "./loadEnvironment.mjs";
 import fileDirName from './file_dir_name.mjs';
-import db from './db_conn.mjs';
-import cookieParser from 'cookie-parser';
-import session from 'express-session';
+// import db from './db_conn.mjs';
+// import cookieParser from 'cookie-parser';
+// import session from 'express-session';
 
 const { __dirname, __filename } = fileDirName(import.meta);
 
@@ -49,15 +49,15 @@ app.use(
 );
 
 // --- SESSION ---
-app.use(cookieParser());
-app.use(session({
-  secret: '9ZtMu3XMqzewa7vBLci66g6t',
-  cookie: {
-    maxAge: 60000,
-    sameSite : 'strict'
-  },
-  resave: false
-}));
+// app.use(cookieParser());
+// app.use(session({
+//   secret: '9ZtMu3XMqzewa7vBLci66g6t',
+//   cookie: {
+//     maxAge: 60000,
+//     sameSite : 'strict'
+//   },
+//   resave: false
+// }));
 
 // --- METHODS ---
 // --- Root ---

@@ -4,7 +4,7 @@ services:
   wapproj2:
     image: wapproj2
     build:
-      context: .
+      context: proj2
       dockerfile: ./Dockerfile
     environment:
       NODE_ENV: production

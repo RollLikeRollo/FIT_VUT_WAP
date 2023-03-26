@@ -194,7 +194,7 @@ input{
 
 button {
     background-color: var(--fitblue);
-    border: none;
+    border: 1px solid white;
     color: white;
     padding: 5px 10px;
     text-align: center;
@@ -220,10 +220,18 @@ button.good:hover {
 button.bad:hover {
     background-color: var(--darkred);
 }
-
+button.reverse {
+    background-color: white;
+    color: var(--fitblue);
+}
+button.reverse:hover {
+    background-color: rgb(218, 215, 215);
+    color: white;
+}
 button:hover {
     background-color: var(--fitblue-darker);
 }
+
 
 .xss-splitter{
     min-width: 100%;
@@ -285,7 +293,22 @@ iframe{
     border: 1px solid var(--fitblue);
 }
 
-
+.fadeMe {
+    animation:fadeIn 0.5s linear;
+  }
+  
+  @keyframes fadeIn {
+    0% {
+      opacity:0
+    }
+    100% {
+      opacity:1;
+    }
+  }
+  
+  .fadeMe.none {
+    display:none
+  }
 
 
 
