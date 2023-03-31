@@ -109,8 +109,33 @@
 
                                 Now copy the link and send it to anyone!
                             </p>
-                            <button class="reverse" onclick="fade(2)"> Back to start </button>
+                            <button class="reverse" onclick="fade(2)"> Defense strategies </button>
                         </li>
+                        <div class="fadeMe" id="li_4" hidden>
+                            <h4> Defense Strategies</h4>
+                            <ul>
+                                <li>Encode data at output</li>
+                                <ul>
+                                    In HTML
+                                    <li>&lt; converts to: &amp;lt;</li>
+                                    <li>&gt; converts to: &amp;gt;</li>
+                                    In JavaScript
+                                    <li>&lt; converts to: \u003c</li>
+                                </ul>
+                                <li>Validate input on arrival</li>
+                                <li>Use a template engine or library built in safety features</li>
+                                <li>Use a Content Security Policy (CSP) - HTTP headers</li>
+                            </ul>
+                            <p>
+                                Look at the OWASP XSS Prevention page and PortSwigger for more information:
+                                <ul>
+                                    <li><a href="https://owasp.org/www-project-web-security-testing-guide/v41/4-Web_Application_Security_Testing/07-Input_Validation_Testing/01-Testing_for_Reflected_Cross_Site_Scripting.html">WSTG - v4.1 Testing for Reflected Cross Site Scripting</a></li>
+                                    <li><a href="https://portswigger.net/web-security/cross-site-scripting/reflected">PortSwigger - Reflected XSS</a></li>
+
+                                </ul>
+                            </p>
+                            <button class="reverse" onclick="fade(3)"> Back to start </button>
+                        </div>
                         </ul>
                     </div>
                     <div class="xss-wrapper-right">

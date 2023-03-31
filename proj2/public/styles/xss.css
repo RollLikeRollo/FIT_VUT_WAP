@@ -178,9 +178,11 @@ img {
 code {
     padding: 2px;
     font-family: "Lucida Console", Courier, monospace;
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 600;
     color: var(--fitblue-darker);
+    /* display: block; */
+    white-space: pre-wrap;
 }
 
 input{
@@ -278,6 +280,7 @@ button:hover {
     /* min-width: 100px; */
     flex-grow: 1;
     align-items: stretch;
+    min-width: 300px;
 }
 
 .xss-wrapper-right .example-frame-cls{
@@ -287,8 +290,15 @@ button:hover {
     flex: 1 1 auto;
 }
 
+.xss-stored-wrapper-right{
+    display: block;
+    width: 100%;
+    margin: 10px;
+}
+
 iframe{
-    height: 100%;
+
+    min-height: 350px;
     width: 100%;
     border: 1px solid var(--fitblue);
 }
