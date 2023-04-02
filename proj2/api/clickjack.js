@@ -1,6 +1,6 @@
 function clickjack() {
 
-    // sessionStorage.setItem("clickjacked", true);
+    // localStorage.setItem("clickjacked", true);
 
     var after_div = parent.document.getElementById("after-clickjacking");
     after_div.hidden = false;
@@ -13,11 +13,11 @@ function clickjack() {
         return;
     }
 
-    var user_list = JSON.parse(sessionStorage.getItem("username_list"));
+    var user_list = JSON.parse(localStorage.getItem("username_list"));
     
     user_list = user_list.filter(item => item !== user_val);
 
-    sessionStorage.setItem("username_list", JSON.stringify(user_list));
+    localStorage.setItem("username_list", JSON.stringify(user_list));
 
     alert("User " + user_val + " has been deleted!");
 }

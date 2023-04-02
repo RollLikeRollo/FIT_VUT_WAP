@@ -25,7 +25,7 @@ async function fetchList() {
     //     myList.appendChild(listItem);
     // }
 
-    let u = sessionStorage.getItem("username");
+    let u = localStorage.getItem("username");
     alert(u);
 
 };
@@ -42,7 +42,7 @@ form.addEventListener('click', async (e) => {
     const form = document.getElementById("user-add-form");
     console.log(form['username'].value);
 
-    sessionStorage.setItem("username", form['username'].value);
+    localStorage.setItem("username", form['username'].value);
 
     let err_msg;
     let re = new RegExp("^[a-zA-Z0-9]+$");

@@ -28,11 +28,11 @@ async function hideList() {
 };
 
 window.onload = function () {
-    // sessionStorage.clear();
+    // localStorage.clear();
     u = getSessionList();
     if (u === null) {
         list = ["PaulAtreides", "DukeLeto", "GurneyHalleck"]
-        sessionStorage.setItem("username_list", JSON.stringify(list));
+        localStorage.setItem("username_list", JSON.stringify(list));
     }
 
     // username select autocomplete
@@ -59,15 +59,15 @@ async function sliderFunc() {
 
 async function makeDefault() {
     console.log("makeDefault");
-    sessionStorage.clear();
+    localStorage.clear();
     list = ["PaulAtreides", "DukeLeto", "GurneyHalleck"]
-    sessionStorage.setItem("username_list", JSON.stringify(list));
+    localStorage.setItem("username_list", JSON.stringify(list));
     fetchList();
 
 }
 
 function getSessionList() { 
-    let u = JSON.parse(sessionStorage.getItem("username_list"));
+    let u = JSON.parse(localStorage.getItem("username_list"));
     return u;
 };
 
@@ -99,7 +99,7 @@ form.addEventListener('click', async (e) => {
         let users = getSessionList();
         if (users === null) {
             users = [form['username'].value];
-            sessionStorage.setItem("username_list", JSON.stringify(users));
+            localStorage.setItem("username_list", JSON.stringify(users));
         } else {
             if (users.includes(form['username'].value)) {
                 err_bool = true;
@@ -107,7 +107,7 @@ form.addEventListener('click', async (e) => {
                 // return;
             } else {
                 users.push(form['username'].value);
-                sessionStorage.setItem("username_list", JSON.stringify(users));
+                localStorage.setItem("username_list", JSON.stringify(users));
             }
         }
     }

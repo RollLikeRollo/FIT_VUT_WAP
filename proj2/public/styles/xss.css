@@ -25,10 +25,10 @@ html {
 }
 
 a:link {
-    color: var(--fitblue);
+    color: var(--fitblue-darker);
 }
 a:visited {
-    color: var(--fitblue-darker);
+    color: var(--darkred);
 }
 
 

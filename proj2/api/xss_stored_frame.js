@@ -1,48 +1,85 @@
 
-window.onload = function () {
+window.onload = async function () {
     var add_comment_button = document.getElementById("add-comment-button");
     add_comment_button.addEventListener("click", addComment);
 
     u = getSessionList();
     if (u === null) {
         list = ["Trees are angry!", "Fangorn is on fire!", "The Ents are coming!"];
-        sessionStorage.setItem("comment_list", JSON.stringify(list));
+        localStorage.setItem("comment_list", JSON.stringify(list));
     }
 
     loadComments();
 
     var reset_button = parent.document.getElementById("reset-button");
     reset_button.addEventListener("click", resetPage);
+
+    await attackerFrameRefresh();
 };
 
+async function attackerFrameRefresh() { 
+    while (true) {
+        await new Promise(r => setTimeout(r, 5000));
+        parent.document.getElementById('attacker-frame').contentWindow.location.reload();        
+    }
+}
 
 
-function getSessionList() { 
-    let u = JSON.parse(sessionStorage.getItem("comment_list"));
-    return u;
+
+async function getSessionList() { 
+    // let u = JSON.parse(localStorage.getItem("comment_list"));
+    // return u;
+
+    let r = fetch("xss_stored_get_comments", {
+    }).then(response => { 
+        if (response.status === 200) {
+            return response.json();
+        } else {
+            console.log("ERROR");
+        }
+    });
+
+    return r;
 };
 
 async function resetPage() { 
     console.log("resetPage");
-    sessionStorage.clear();
+    localStorage.clear();
     list = ["Trees are angry!", "Fangorn is on fire!", "The Ents are coming!"];
-    sessionStorage.setItem("comment_list", JSON.stringify(list));
+    localStorage.setItem("comment_list", JSON.stringify(list));
     await loadComments();
+    fetch("/api/xss_stored_reset");
 };
 
-async function addComment() { 
+async function addComment() {
     const comment = document.getElementById("comment-area").value;
     console.log(comment);
 
-    if (comment === "") { 
+    if (comment === "") {
         alert("Comment cannot be empty!");
         return;
     }
 
-    let u = getSessionList();
-    u.push(comment);
+    // let u = getSessionList();
+    // u.push(comment);
 
-    sessionStorage.setItem("comment_list", JSON.stringify(u));
+    localStorage.setItem("comment_list", JSON.stringify(u));
+
+    fetch("xss_stored_add_comment", {
+        headers: {
+            'Content-Type': 'text/plain'
+        },
+        body: JSON.stringify(comment),
+        method: "POST"
+    }
+    ).then(response => {
+        if (response.status === 200) {
+            console.log("OK");
+            console.log(response.json());
+        } else {
+            console.log("ERROR");
+        }
+    });
     
     comment.value = '';
     await loadComments();
@@ -53,7 +90,8 @@ async function addComment() {
 }
 
 async function loadComments() { 
-    let u = getSessionList();
+    let u = await getSessionList();
+    console.log(u);
     let comments = document.getElementById("comments");
     comments.innerHTML = "";
 
@@ -66,8 +104,6 @@ async function loadComments() {
             u[i] = u[i].substring(8, u[i].length - 9);
         }
     }
-
-    console.log(v);
 
 
     for (let i = u.length-1; i >= 0; i--) {

@@ -2,6 +2,8 @@ import express from 'express';
 import fileDirName from './file_dir_name.mjs';
 import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
+import * as xss_stored from './xss_stored.mjs';
+import session from 'express-session';
 
 const { __dirname, __filename } = fileDirName(import.meta);
 
@@ -48,7 +50,15 @@ app.use(
 );
 app.use(bodyParser.text());
 app.use(bodyParser.json());
+// app.use(bodyParser.raw());
+app.use(express.text());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(session({
+  secret: 'awfbjawf1246fjhszbf7823576823',
+  saveUninitialized: true,
+  cookie: { maxAge: 60000 },
+  resave: false
+}));
 
 
 // --- SESSION ---
@@ -103,34 +113,54 @@ app.get('/xss_stored/frame', (req, res) => {
   var search_bar = req.query.search_bar;
   // console.log(search);
   // console.log(search_bar);
-  var random_string = '8lurm0p21ij8jr8i3yaqgn3q';
-  res.cookie('session', random_string, {path: '/xss_stored/frame' , httpOnly: false, secure: false });
+  var random_string = xss_stored.reverseString(req.sessionID.substring(10, 18));
+  res.cookie('sessionCookie', random_string, {path: '/xss_stored/frame' , httpOnly: false, secure: false });
   var full_url = req.protocol + '://' + req.get('host') + req.originalUrl;
   res.render('xss_stored_frame', { search_result: search, search_bar, full_url });
 });
 
 app.post('/xss_stored/frame', (req, res) => { 
-  var search = req.query.search;
-  var search_bar = req.query.search_bar;
-  // console.log(comments);
   var full_url = req.protocol + '://' + req.get('host') + req.originalUrl;
   res.render('xss_stored_frame', {full_url});
 });
 
 app.get('/xss_stored/frame_attacker', (req, res) => { 
-  stolen = [];
+  var stolen = xss_stored.getStolenCookies();
+  var sessionid = req.sessionID;
   var full_url = req.protocol + '://' + req.get('host') + req.originalUrl;
   res.render('xss_stored_attacker', { title, full_url, stolen });
 });
 
-var stolen = [];
+app.get('/api/xss_stored_reset', (req, res) => { 
+  xss_stored.resetStolenCookies();
+  console.log('Stolen cookies reset');
+  res.status(200).send('Stolen cookies reset');
+});
+
 app.post('/xss_stored/frame_attacker', (req, res) => {
-  // console.log('POST');
   var body = req.body;
-  stolen.push((body));
-  // stolen = "dd";
-  res.render('xss_stored_attacker', { title, stolen });
-} );
+  var sessionid = req.sessionID;
+
+  if (body != null && body != undefined && body != '') { 
+    xss_stored.appendStolenCookies(body);
+  } else {
+    res.status(304).send('Faulty data');
+  }
+  var stolen = xss_stored.getStolenCookies();
+  res.status(205).render('xss_stored_attacker', { title, stolen });
+  
+});
+
+app.post('/xss_stored/xss_stored_add_comment', (req, res) => { 
+  let comment = req.body;
+  res.send(JSON.stringify(xss_stored.appendComment(comment)));
+  console.log('Comment added');
+  console.log(xss_stored.getComments());
+});
+
+app.get('/xss_stored/xss_stored_get_comments', (req, res) => { 
+  res.send(JSON.stringify(xss_stored.getComments()));
+});
 
 // --- Clickjacking ---
 app.get('/clickjacking', (req, res) => { 
