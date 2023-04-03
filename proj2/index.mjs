@@ -1,11 +1,11 @@
 import express from 'express';
-import fileDirName from './file_dir_name.mjs';
+import fileDirName from './server_scripts/file_dir_name.mjs';
 import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
-import * as xss_stored from './xss_stored.mjs';
+import * as xss_stored from './server_scripts/xss_stored.mjs';
 import session from 'express-session';
 
-const { __dirname, __filename } = fileDirName(import.meta);
+const { __dirname } = fileDirName(import.meta);
 
 const app = express();
 const port = process.env.PORT || 8000;
@@ -84,16 +84,23 @@ app.get('/about', (req, res) => {
 
 // --- XSS ---
 
-// email https://stackoverflow.com/questions/7381150/how-to-send-an-email-from-javascript
-
+/**
+ * render the xss selector view
+ */
 app.get('/xss', (req, res) => { 
   res.render('xss', { title,author,school,year,fitlogo });
 });
 
+/**
+ * render the xss reflected view
+ */
 app.get('/xss_reflected', (req, res) => { 
   res.render('xss_reflected', { title,author,school,year,fitlogo });
 });
 
+/**
+ * Render the xss reflected frame view with the search bar
+ */
 app.get('/xss_reflected/frame', (req, res) => { 
   var search = req.query.search;
   var search_bar = req.query.search_bar;
@@ -103,27 +110,30 @@ app.get('/xss_reflected/frame', (req, res) => {
   res.render('xss_reflected_frame', { title,author,school,year,fitlogo,search_result:search,search_bar,full_url });
 });
 
+/**
+ * Render the xss stored view
+ */
 app.get('/xss_stored', (req, res) => { 
   var full_url = req.protocol + '://' + req.get('host') + req.originalUrl;
   res.render('xss_stored', { title,author,school,year,fitlogo,full_url });
 });
 
+/**
+ * Render the xss stored frame view the example-cookie
+ * is set as modified session id
+ */
 app.get('/xss_stored/frame', (req, res) => { 
   var search = req.query.search;
   var search_bar = req.query.search_bar;
-  // console.log(search);
-  // console.log(search_bar);
-  var random_string = xss_stored.reverseString(req.sessionID.substring(10, 18));
-  res.cookie('sessionCookie', random_string, {path: '/xss_stored/frame' , httpOnly: false, secure: false });
+  var pseudo_cookie = xss_stored.reverseString(req.sessionID.substring(10, 18));
+  res.cookie('sessionCookie', pseudo_cookie, {path: '/xss_stored/frame' , httpOnly: false, secure: false });
   var full_url = req.protocol + '://' + req.get('host') + req.originalUrl;
   res.render('xss_stored_frame', { search_result: search, search_bar, full_url });
 });
 
-app.post('/xss_stored/frame', (req, res) => { 
-  var full_url = req.protocol + '://' + req.get('host') + req.originalUrl;
-  res.render('xss_stored_frame', {full_url});
-});
-
+/**
+ * Render the xss stored frame attacker view
+ */
 app.get('/xss_stored/frame_attacker', (req, res) => { 
   var stolen = xss_stored.getStolenCookies();
   var sessionid = req.sessionID;
@@ -131,12 +141,17 @@ app.get('/xss_stored/frame_attacker', (req, res) => {
   res.render('xss_stored_attacker', { title, full_url, stolen });
 });
 
+/**
+ * Render the xss stored frame after the RESET is pressed
+ */
 app.get('/api/xss_stored_reset', (req, res) => { 
   xss_stored.resetStolenCookies();
-  console.log('Stolen cookies reset');
   res.status(200).send('Stolen cookies reset');
 });
 
+/**
+ * Post stolen cookies to the attcker view
+ */
 app.post('/xss_stored/frame_attacker', (req, res) => {
   var body = req.body;
   var sessionid = req.sessionID;
@@ -151,18 +166,12 @@ app.post('/xss_stored/frame_attacker', (req, res) => {
   
 });
 
-app.post('/xss_stored/xss_stored_add_comment', (req, res) => { 
-  let comment = req.body;
-  res.send(JSON.stringify(xss_stored.appendComment(comment)));
-  console.log('Comment added');
-  console.log(xss_stored.getComments());
-});
-
-app.get('/xss_stored/xss_stored_get_comments', (req, res) => { 
-  res.send(JSON.stringify(xss_stored.getComments()));
-});
 
 // --- Clickjacking ---
+
+/**
+ * Render the clickjacking view
+ */
 app.get('/clickjacking', (req, res) => { 
   res.set({
     'Access-Control-Allow-Origin': '*',
@@ -172,6 +181,7 @@ app.get('/clickjacking', (req, res) => {
   res.render('clickjacking', { title,author,school,year,fitlogo});
 });
 
+
 app.post('/clickjacking',function(req,res){
   res.render('clickjacking', { title,author,school,year,fitlogo});
 });
@@ -179,6 +189,10 @@ app.post('/clickjacking',function(req,res){
 app.get('/clickjacking/iframe', (req, res) => { 
   res.render('delete_user', { title,author,school,year,fitlogo });
 });
+
+/**
+ * Render the protceted clickjacking view
+ */
 app.get('/clickjacking/iframe_protected', (req, res) => { 
   res.setHeader('Content-Security-Policy', "frame-ancestors 'none';")
   res.render('delete_user_protected', { title,author,school,year,fitlogo });
@@ -222,17 +236,6 @@ app.post('/api/add_user', async (req, res) => {
   res.send(result).status(204);
 });
 
-// app.post('/api/drop_users', async (req, res) => { 
-//   let collection = await db.collection(req.body.collection);
-//   let result = await collection.drop();
-//   res.send(result).status(204);
-// });
-
-app.get('/api/get_session', async (req, res) => { 
-  res.send({ session: req.sessionID });
-});
-
-// app.get('/api/clickjack')
 
 
 // --- APP ---

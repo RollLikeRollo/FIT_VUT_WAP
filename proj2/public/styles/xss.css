@@ -24,12 +24,14 @@ html {
     height: 100vh;
 }
 
-a:link {
-    color: var(--fitblue-darker);
-}
+/* a:link {
+    color: var(--fitblue);
+} */
+
+/*
 a:visited {
     color: var(--darkred);
-}
+} */
 
 
 
@@ -227,13 +229,18 @@ button.reverse {
     color: var(--fitblue);
 }
 button.reverse:hover {
-    background-color: rgb(218, 215, 215);
+    background-color: var(--fitblue-darker);
     color: white;
 }
 button:hover {
     background-color: var(--fitblue-darker);
 }
 
+.success-note{
+    color: var(--green);
+    background-color: white;
+    border: 3px solid;
+}
 
 .xss-splitter{
     min-width: 100%;
@@ -297,8 +304,8 @@ button:hover {
 }
 
 iframe{
-
     min-height: 350px;
+    height: 100%;
     width: 100%;
     border: 1px solid var(--fitblue);
 }

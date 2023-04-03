@@ -14,6 +14,8 @@ window.onload = async function () {
     var reset_button = parent.document.getElementById("reset-button");
     reset_button.addEventListener("click", resetPage);
 
+    var reset_hide_button = parent.document.getElementById("reset-hide-button");
+
     await attackerFrameRefresh();
 };
 
@@ -24,22 +26,26 @@ async function attackerFrameRefresh() {
     }
 }
 
+async function attackerFrameRefreshOnce() { 
+    parent.document.getElementById('attacker-frame').contentWindow.location.reload();        
+}
 
 
-async function getSessionList() { 
-    // let u = JSON.parse(localStorage.getItem("comment_list"));
-    // return u;
 
-    let r = fetch("xss_stored_get_comments", {
-    }).then(response => { 
-        if (response.status === 200) {
-            return response.json();
-        } else {
-            console.log("ERROR");
-        }
-    });
+function getSessionList() { 
+    let u = JSON.parse(localStorage.getItem("comment_list"));
+    return u;
 
-    return r;
+    // let r = fetch("xss_stored_get_comments", {
+    // }).then(response => { 
+    //     if (response.status === 200) {
+    //         return response.json();
+    //     } else {
+    //         console.log("ERROR");
+    //     }
+    // });
+
+    // return r;
 };
 
 async function resetPage() { 
@@ -47,8 +53,11 @@ async function resetPage() {
     localStorage.clear();
     list = ["Trees are angry!", "Fangorn is on fire!", "The Ents are coming!"];
     localStorage.setItem("comment_list", JSON.stringify(list));
+    attackerFrameRefreshOnce();
     await loadComments();
     fetch("/api/xss_stored_reset");
+
+    resetNotes();
 };
 
 async function addComment() {
@@ -60,26 +69,26 @@ async function addComment() {
         return;
     }
 
-    // let u = getSessionList();
-    // u.push(comment);
+    let u = getSessionList();
+    u.push(comment);
 
     localStorage.setItem("comment_list", JSON.stringify(u));
 
-    fetch("xss_stored_add_comment", {
-        headers: {
-            'Content-Type': 'text/plain'
-        },
-        body: JSON.stringify(comment),
-        method: "POST"
-    }
-    ).then(response => {
-        if (response.status === 200) {
-            console.log("OK");
-            console.log(response.json());
-        } else {
-            console.log("ERROR");
-        }
-    });
+    // fetch("xss_stored_add_comment", {
+    //     headers: {
+    //         'Content-Type': 'text/plain'
+    //     },
+    //     body: JSON.stringify(comment),
+    //     method: "POST"
+    // }
+    // ).then(response => {
+    //     if (response.status === 200) {
+    //         console.log("OK");
+    //         console.log(response.json());
+    //     } else {
+    //         console.log("ERROR");
+    //     }
+    // });
     
     comment.value = '';
     await loadComments();
@@ -90,10 +99,13 @@ async function addComment() {
 }
 
 async function loadComments() { 
-    let u = await getSessionList();
+    let u = getSessionList();
     console.log(u);
     let comments = document.getElementById("comments");
     comments.innerHTML = "";
+
+    // strip beginning and trailing whitespace
+    u = u.map(x => x.trim());
 
     let v = [];
     for( let i = 0; i < u.length; i++) { 
@@ -131,3 +143,34 @@ function addScript( src ) {
     s.setAttribute( 'src', src );
     document.body.appendChild( s );
   }
+
+
+function copyCode() { 
+    var copyText = document.getElementById("post-code");
+    // console.log(copyText.textContent);
+    navigator.clipboard.writeText(copyText.textContent);
+
+    // alert("Copied the code: " + copyText.value);
+}
+
+async function resetNotes() { 
+    var s = parent.document.getElementById('reset-button-sec');
+    s.style.display = "block";
+    s_ch = s.children;
+    s_ch[0].textContent = "Reset successful!";
+    s_ch[0].style.display = 'block'
+    s_ch[0].classList.add('success-note');
+    s_ch[1].textContent = 'OK';
+    s_ch[1].style.display = 'block'
+}
+
+async function resetNotesClose() {
+    var s = parent.document.getElementById('reset-button-sec');
+    s.style.display = "none";
+    s_ch = s.children;
+    s_ch[0].textContent = "Reset successful!";
+    s_ch[0].style.display = 'none'
+    s_ch[0].classList.add('success-note');
+    s_ch[1].textContent = 'OK';
+    s_ch[1].style.display = 'none'
+}

