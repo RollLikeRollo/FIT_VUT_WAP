@@ -10,14 +10,15 @@
     <div class="example-controls">
         <span class="url">URL</span>
         <form action="/xss_reflected/frame" method="GET">
-        <input id="search_bar" class="urlbar" type="text" value="<%- full_url %>">
-        <input class="urlbutton" type="Submit" value="Go" onclick="sendReq()">
+            <input id="search_bar" class="urlbar" type="text" value="<%- full_url %>">
+            <input class="urlbutton" type="Submit" value="Go" onclick="sendReqXSS()">
+        </form>
     </div>
     <div class="frame-content">
         <h1><i>Ye Daily Palantír</i></h1>
-        <h1> Breaking News! Isengard Unleashed</h1>
-        <p> Rohan spies confirm the movement of the White Hand.
-            Saruman did not want to comment on the matter.
+        <h1>Sauron's scandalous confession!</h1>
+        <p>
+            "I always wanted to be loved by Lúthien. I am jealous of Beren." --Sauron opened for the magazine.
         </p>
         <hr>
         <h3>

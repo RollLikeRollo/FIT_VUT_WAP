@@ -1,3 +1,7 @@
+window.onload = async function () { 
+    ;
+};
+
 async function fade(number) {
     console.log("fade");
     var fade_elems = document.getElementsByClassName("fadeMe");
@@ -5,5 +9,6 @@ async function fade(number) {
     console.log(fade_elems);
 
     fade_elems[(number) % fade_elems.length].hidden = true;
-    fade_elems[(number+1) % fade_elems.length].hidden = false;
+    fade_elems[(number + 1) % fade_elems.length].hidden = false;
+    sessionStorage.setItem("active_fade_xss", (number + 1) % fade_elems.length);
 }

@@ -1,5 +1,6 @@
 
 window.onload = async function () {
+
     var add_comment_button = document.getElementById("add-comment-button");
     add_comment_button.addEventListener("click", addComment);
 
@@ -17,6 +18,9 @@ window.onload = async function () {
     var reset_hide_button = parent.document.getElementById("reset-hide-button");
 
     await attackerFrameRefresh();
+
+    
+
 };
 
 async function attackerFrameRefresh() { 
@@ -144,14 +148,6 @@ function addScript( src ) {
     document.body.appendChild( s );
   }
 
-
-function copyCode() { 
-    var copyText = document.getElementById("post-code");
-    // console.log(copyText.textContent);
-    navigator.clipboard.writeText(copyText.textContent);
-
-    // alert("Copied the code: " + copyText.value);
-}
 
 async function resetNotes() { 
     var s = parent.document.getElementById('reset-button-sec');

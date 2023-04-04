@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Reflected XSS</title>
+    <link rel="stylesheet" href="/styles/xss_frame.css">
+    <script src="/api/csrf/vulnerable.js"></script>
+</head>
+<body>
+    <div class="example-controls">
+        <span class="url">URL</span>
+        <form action="/csrf/vulnerable" method="GET">
+        <input id="search_bar" class="urlbar" type="text" value="<%- full_url %>">
+        <input class="urlbutton" type="Submit" value="Go" onclick="sendReq()">
+        </form>
+    </div>
+    <div class="frame-content">
+        <h3>
+            <i>Bank of Numenor</i>
+        </h3>
+        <p>
+            <b>Account Balance:</b> To many Numenorian Silverpennies
+        </p>
+        <div class="money-form">
+            Transfer coins:
+            <form action="/csrf/vulnerable" method="post">
+                <label for="recipient">Recipient:</label>
+                <input type="text" id="recipient" name="recipient">
+                <label for="amount">Amount to transfer:</label>
+                <input type="number" id="amount" name="amount">
+                <button>Transfer</button>
+            </form>
+        </div>
+
+        <button id='fetch-transfers' onclick="fetchTranfers()">My transfers</button>
+        <div id="fetch-transfers-c"></div>
+
+    </div>
+</body>
+</html>

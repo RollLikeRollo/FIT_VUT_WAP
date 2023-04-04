@@ -11,7 +11,7 @@
   }
 
 body {
-    text-align: left;
+    text-align: justify;
     align-items: center;
     height: 100%;
 }
@@ -175,7 +175,17 @@ img {
     height: auto;
 }
 
-
+code.my-code { 
+    padding: 2px;
+    font-family: "Lucida Console", Courier, monospace;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--fitblue-darker);
+    display: block;
+    white-space: pre-wrap;
+    text-align: left;
+    background-color: transparent;
+}
 
 code {
     padding: 2px;
@@ -183,9 +193,13 @@ code {
     font-size: 12px;
     font-weight: 600;
     color: var(--fitblue-darker);
-    /* display: block; */
+    display: block;
     white-space: pre-wrap;
+    text-align: left;
+    background-color: transparent;
 }
+
+
 
 input{
     padding: 5px;
@@ -235,6 +249,12 @@ button.reverse:hover {
 button:hover {
     background-color: var(--fitblue-darker);
 }
+button:active  {
+    background-color: var(--fitred);
+}
+button.reverse:active  {
+    background-color: var(--fitred);
+}
 
 .success-note{
     color: var(--green);
@@ -265,7 +285,6 @@ button:hover {
     /* justify-content: flex-start; */
     resize: horizontal;
     overflow: hidden;
-    height: 100%;
     width: 100%;
 }
 
@@ -277,9 +296,15 @@ button:hover {
     background-color: var(--fitblue);
     color: white;
     border-radius: var(--radius);
+    display: flex;
+    flex-direction: column;
+}
+.xss-wrapper-left p{
+    padding-left: 5px;
+    padding-right: 5px;
 }
 .xss-wrapper-right{
-    flex: 1 0 auto;
+    /* flex: 1 0 auto; */
     overflow: auto;
     text-align: center;
     padding: 10px;
@@ -295,6 +320,12 @@ button:hover {
     width: 100%;
     border: 1px solid var(--fitblue);
     flex: 1 1 auto;
+}
+
+.xss-wrapper-right iframe{
+    height: 100%;
+    width: 100%;
+    border: 1px solid var(--fitblue);
 }
 
 .xss-stored-wrapper-right{

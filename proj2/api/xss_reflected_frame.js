@@ -1,4 +1,4 @@
-async function sendReq() {
+async function sendReqXSS() {
     // console.log("sendReq");
 
     var input_box = document.getElementById("search_bar").value;

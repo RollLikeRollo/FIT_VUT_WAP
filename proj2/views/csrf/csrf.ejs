@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en" class="html">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title><%- title.title %> | <%- title.subtitle.csrf %></title>
+        <link rel="stylesheet" href="/styles/prism.css">
+        <link rel="stylesheet" href="/styles/xss.css">
+        <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+        <script src="/api/fade.js"></script>
+        <script src="/api/csrf/csrf.js"></script>
+        <script src="/api/copy_code.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.23.0/prism.min.js"></script>
+    </head>
+    <body class="body">
+        <div class="page-wrapper">
+            <header class="title">
+                <h1 class='title-text'><%= title.title %></h1>
+                <img class='title-logo' src= <%-fitlogo%>   alt="FIT">
+            </header>
+            <p id='session-p' style='text-align:end' ></p>
+            <nav>
+                <ul class='topnav'>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/xss">XSS</a></li>
+                    <li><a href="/clickjacking">Clickjacking</a></li>
+                    <li><a class="active" href="/csrf">CSRF</a></li>
+                    <li style="float:right"><a href="/about">About</a></li>
+                </ul>
+            </nav>
+            <main>
+                <div class="xss-wrapper">
+                    <div class="xss-wrapper-left">
+                        <h2>Cross Site Request Forgery</h2>
+                        <p>
+                            Cross-Site Request Forgery (CSRF) is a type of attack that occurs when a malicious web site causes a user's web browser 
+                            to perform an unwanted action on a trusted site when the user is currently authenticated. CSRF attacks specifically target 
+                            state-changing requests, not theft of data, since the attacker has no way to see the response to the forged request.
+                        </p>
+                        <p>
+                            The attacker tries to get the user to visit a malicious site, which will then send a request to the vulnerable site, where
+                            the user is authenticated. The attacker has to know the URL of the vulnerable site and its DOM structure, so he can forge
+                            a request which is compatible with the vulnerable site's logic. The attack can be obfuscated by using various techniques,
+                            such as using an image or script tag to send the request, or by using a hidden form etc. The more plain attack is to send
+                            the user a crafted link with prefilled data. The page then needs to be able to process the request in a <code class="my-code">GET</code>
+                            request. If the data is sent in a <code class="my-code">POST</code> request, the attacker must craft the request in a way that the victim cannot simply open
+                            the forged link.
+                        </p>
+                        <p>
+                            In this lab, you have a vulnerable site, which has a form for sending money. The other frame is a malicious blog, where you, as
+                            an attacker, can create a hidden elemnt, which will send a request to the vulnerable site. Whoever visits the blog, and who is 
+                            authenticated at the vulnerable bank site, will automatically send the request to the bank.
+                        </p>
+                        <div>
+                            <ul>
+                                <li class="fadeMe" id="li_1">
+                                    <p>
+                                        The frame on the top contains a vulnerable page. Get familiar with the page and its functionality. Play with it.
+                                        The HTML code of can be changed in the editor on the right. The content will be directly rendered below the editor.
+                                    </p> 
+                                    <p>
+                                        Your task is to create a malicious element, which will send a request to the bank, and will send money to your account.
+                                        You can test your solution by viewing the transactions list on the bank webpage.
+                                    </p>
+                                    <p>
+                                        Keep in mind that this is a educational simluation. Normally, you as an attacker would not see the page of the bank with the victim
+                                        logged in. You would have to find a way to get the victim to visit your malicious page, and then the request would be sent automatically.
+
+                                    </p>
+                                    <button class="reverse" onclick="fade(0)"> Next </button>
+                                </li>
+                                <li class="fadeMe" hidden id="li_1">
+                                    <p>
+                                        Write code inside a form tag, which will send a request to the bank. The request should be sennt to the appropriate URL,
+                                        and should contain the parameters you've learned from the bank page. The request should be sent as a <code class="my-code">POST</code> request.
+                                    </p> 
+                                    <p>
+                                        If you cannot find the URL or parameters, use your browser's developer tools. If you cannot code the exploit, you'll get a solution
+                                        in the next step.
+                                    </p>
+                                    <button class="reverse" onclick="fade(1)"> Next </button>
+                                </li>
+                                <li class="fadeMe" hidden  id="li_1">
+                                    <p>
+                                        Use the following code as a template for your exploit. You can change the amount of money to be sent, and the account number.
+                                        (jquery is already included in the blog page code).
+                                        <code class="my-code" id="copy-code">
+&lt;form id='theform' method=&quot;POST&quot;&gt;
+    &lt;input type=&quot;hidden&quot; name=&quot;recipient&quot; value=&quot;ATTACKER&quot; /&gt;
+    &lt;input type=&quot;hidden&quot; name=&quot;amount&quot; value=&quot;999&quot; /&gt;
+&lt;/form&gt;
+&lt;script&gt;
+$.post('<%- full_url %>', $('#theform').serialize())
+&lt;/script&gt;
+</code>
+                                    <button class="reverse" onclick="copyCode('copy-code')"> Copy Code </button>
+                                    </p>
+                                    <button class="reverse" onclick="fade(2)"> Next </button>
+                                </li>
+                                <li class="fadeMe" hidden id="li_1">
+                                    <p>
+                                        If everything went well, you should see no form appering on the blog.
+                                        If you visit the bank page, you should see a new transaction, which was sent by you visiting the blog.
+                                        The transaction will be send every time someone visits the blog and is authenticated at the bank site
+                                        in another browser tab.
+                                    </p>
+                                    <button class="reverse" onclick="fade(3)"> Defense Strategies </button>
+                                </li>
+                                <li class="fadeMe" hidden  id="li_1">
+                                    <p>
+                                        https://www.youtube.com/watch?v=vRBihr41JTo
+
+                                    </p> 
+                                    <button class="reverse" onclick="fade(4)"> Back to start </button>
+                                </li>
+                            </ul>
+                        </div>
+                        <div style="flex:1">
+
+                        </div>
+                        Awesome text editor code from: <br/> <a target="_blank" href="https://css-tricks.com/creating-an-editable-textarea-that-supports-syntax-highlighted-code/">
+                            https://css-tricks.com/creating-an-editable-textarea-that-supports-syntax-highlighted-code/
+                        </a>
+                    </div>
+                    <div class="xss-wrapper-right">
+                        <div>
+                            <p>
+                                Vulnerable page:
+                            </p>
+                            <iframe src="/csrf/vulnerable" id="vuln-frame"></iframe>
+                            <p>
+                                Malicious page editor:
+                            </p>
+                            <div id="container">
+                                <textarea spellcheck="false" id="editing" oninput="update(this.value); sync_scroll(this);" onscroll="sync_scroll(this);"><%-include('./malicious-content'); %></textarea>
+                                <pre id="highlighting" aria-hidden="true">
+                                    <code class="language-html" id="highlighting-content"></code>
+                                </pre>
+                            </div>
+                            <p>
+                                Malicious page:
+                            </p>
+                            <iframe id="malicious-iframe"></iframe>
+                        </div>
+                    </div>
+                </div>
+            </main>
+            <%- include('../_footer'); %>
+        </div>
+    </body>
+</html>

@@ -1,8 +1,9 @@
 import express from 'express';
-import fileDirName from './server_scripts/file_dir_name.mjs';
 import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
+import fileDirName from './server_scripts/file_dir_name.mjs';
 import * as xss_stored from './server_scripts/xss_stored.mjs';
+import * as csrf_storage from './server_scripts/csrf_storage.mjs';
 import session from 'express-session';
 
 const { __dirname } = fileDirName(import.meta);
@@ -16,7 +17,9 @@ const title = {
   subtitle: {
     index: 'Home',
     about: 'About',
-    xss: 'XSS'
+    xss: 'XSS',
+    csrf: 'CSRF',
+    clickjacking: 'Clickjacking',
   }
 };
 const author = {
@@ -206,9 +209,46 @@ app.get('/clickjacking_protected', (req, res) => {
 
 // --- CSRF ---
 
+/**
+ * CSRF main page
+ */
 app.get('/csrf', (req, res) => { 
-  res.render('csrf', { title,author,school,year,fitlogo });
+  var full_url = req.protocol + '://' + req.get('host') + req.originalUrl + '/vulnerable';
+  res.render('csrf/csrf', { title,author,school,year,fitlogo, full_url });
 });
+
+/**
+ * CSRF vulnerable frame
+ */
+app.post('/csrf/vulnerable', (req, res) => {
+  var to = req.body.recipient;
+  var amount = req.body.amount;
+  csrf_storage.addTransfer(req.sessionID, amount, to);
+  var full_url = req.protocol + '://' + req.get('host') + req.originalUrl;
+  res.render('csrf/vulnerable', { full_url });
+});
+
+
+app.get('/csrf/vulnerable', (req, res) => {
+  console.log(csrf_storage.getTransfers(req.sessionID));
+  var full_url = req.protocol + '://' + req.get('host') + req.originalUrl;
+  res.render('csrf/vulnerable', { full_url });
+});
+
+app.get('/api/transfers', (req, res) => {
+  var transfers = csrf_storage.getTransfers(req.sessionID);
+  console.log(transfers);
+  res.send(JSON.stringify(transfers)).status(200);
+});
+
+
+/**
+ * CSRF malicious frame
+ */
+app.get('/csrf/malicious', (req, res) => {
+  res.render('csrf/malicious',);
+});
+
 
 // --- API ---
 

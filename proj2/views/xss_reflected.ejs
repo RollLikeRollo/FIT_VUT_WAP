@@ -7,7 +7,8 @@
         <title><%- title.title %> | <%- title.subtitle.xss %></title>
         <link rel="stylesheet" href="/styles/xss.css">
         <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
-        <script src="/api/xss_fade.js"></script>
+        <script src="/api/fade.js"></script>
+        <script src="/api/copy_code.js"></script>
     </head>
     <body class="body">
         <div class="page-wrapper">
@@ -74,9 +75,10 @@
                             </p>
                             <p>
                                 Hint: <br/>
-                                <code>
-                                    &lt;script&gt;alert('Hello World!')&lt;/script&gt;
-                                </code>
+                                <code id=post-code>
+&lt;script&gt;alert('Hello World!')&lt;/script&gt;
+</code>
+                            <button onclick="copyCode('post-code')">Copy code to clipboard</button>
                             </p>
                             <button class="reverse" onclick="fade(1)"> Next </button>
                         </li>
@@ -92,7 +94,7 @@
                             </p>
                             <p>
                                 Hint: <br/>
-                                <code>
+                                <code id="post-code-2">
 &lt;script&gt;
 var last_elem_body = document.getRootNode().<br/>lastChild.lastChild.lastChild;
 var rickroll = document.createElement("iframe");
@@ -105,7 +107,7 @@ rickroll.setAttribute("allowfullscreen", "");
 last_elem_body.appendChild(rickroll);
 &lt;/script&gt;
                                 </code><br/>
-
+                                <button onclick="copyCode('post-code-2')">Copy code to clipboard</button><br/>
                                 Now copy the link and send it to anyone!
                             </p>
                             <button class="reverse" onclick="fade(2)"> Defense strategies </button>
