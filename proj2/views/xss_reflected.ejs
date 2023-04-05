@@ -1,6 +1,13 @@
+<!-- 
+    Reflected XSS page view
+    Jan Zboril 
+    xzbori20@stud.fit.vutbr.cz
+    FIT VUT Brno 2023
+    WAP proj2
+ -->
+
 <!DOCTYPE html>
 <html lang="en" class="html">
-    <!-- <script src="/api/session-p.js" defer></script> -->
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -75,7 +82,7 @@
                             </p>
                             <p>
                                 Hint: <br/>
-                                <code id=post-code>
+                                <code id=post-code class="my-code">
 &lt;script&gt;alert('Hello World!')&lt;/script&gt;
 </code>
                             <button onclick="copyCode('post-code')">Copy code to clipboard</button>
@@ -94,7 +101,7 @@
                             </p>
                             <p>
                                 Hint: <br/>
-                                <code id="post-code-2">
+                                <code id="post-code-2" class="my-code">
 &lt;script&gt;
 var last_elem_body = document.getRootNode().<br/>lastChild.lastChild.lastChild;
 var rickroll = document.createElement("iframe");
@@ -112,7 +119,7 @@ last_elem_body.appendChild(rickroll);
                             </p>
                             <button class="reverse" onclick="fade(2)"> Defense strategies </button>
                         </li>
-                        <div class="fadeMe" id="li_4" hidden>
+                        <li class="fadeMe" id="li_4" hidden>
                             <h4> Defense Strategies</h4>
                             <ul>
                                 <li>Encode data at output</li>
@@ -136,7 +143,7 @@ last_elem_body.appendChild(rickroll);
                                 </ul>
                             </p>
                             <button class="reverse" onclick="fade(3)"> Back to start </button>
-                        </div>
+                        </li>
                         </ul>
                     </div>
                     <div class="xss-wrapper-right">

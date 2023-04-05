@@ -1,7 +1,22 @@
+/**
+ * @file csrf.js
+ * @description Editor code and rendering of malicious iframe
+ * @author Jan Zboril <xzbori20@stud.fit.vutbr.cz>
+ * @date 2023
+ * FIT VUT Brno
+ * WAP project 2
+ */
+
+/**
+ * Load the editor and render the malicious iframe on the page load
+ */
 window.onload = async function () { 
     update(document.getElementById('editing').value);
 };
 
+/**
+ * Takes text (HTML code) from the editor and renders it in the iframe
+ */
 function renderFrame() {
     var editorHTML = document.getElementById('editing').value;
     var iframe = document.getElementById('malicious-iframe');
@@ -11,6 +26,7 @@ function renderFrame() {
 }
 
 /**
+ *  Scrolling in the editor
  *  From https://css-tricks.com/creating-an-editable-textarea-that-supports-syntax-highlighted-code/
  */
 function sync_scroll(element) {
@@ -22,8 +38,9 @@ function sync_scroll(element) {
 }
 
 /**
+ * Editor logic
  *  From https://css-tricks.com/creating-an-editable-textarea-that-supports-syntax-highlighted-code/
- * @param {*} text 
+ * @param {*} text the textarea content - the editor
  */
 function update(text) {
 
@@ -37,6 +54,7 @@ function update(text) {
     }
     // Update code
     result_element.innerHTML = text.replace(new RegExp("&", "g"), "&amp;").replace(new RegExp("<", "g"), "&lt;"); /* Global RegExp */
+    // result_element.innerHTML = text.replace(new RegExp("&", "g"), "&").replace(new RegExp("<", "g"), "<"); /* Global RegExp */
     // Syntax Highlight
     Prism.highlightElement(result_element);
   }

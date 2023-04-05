@@ -1,12 +1,24 @@
+/* 
+ * CSS for code editor
+ * taken from: https://css-tricks.com/creating-an-editable-textarea-that-supports-syntax-highlighted-code/
+ * WAP proj 2
+ * Jan Zboril
+ * FIT VUT Brno
+ * 2023
+ */
+
+
 #editing, #highlighting {
     /* Both elements need the same text and space styling so they are directly on top of each other */
     margin: 10px;
     padding: 10px;
     border: 0;
-    width: calc(100% - 32px);
+    width: calc(100% - 40px);
+    /* width: 100%; */
     height: 300px;
     overflow: auto;
     white-space: nowrap;
+    position: relative;
   }
   #editing, #highlighting, #highlighting * {
     /* Also add text styles to highlighing tokens */
@@ -37,8 +49,9 @@
   /* Move the textarea in front of the result */
   
   #editing {
-    z-index: 1;
     resize: none;
+    z-index: 1;
+    /* left: 3px; */
   }
   #highlighting {
     z-index: 0;
@@ -65,14 +78,14 @@
   }
   
   /* Paragraphs; First Image */
-  * {
+  /* * {
     font-family: "Fira Code", monospace;
   }
   p code {
     border-radius: 2px;
     background-color: #eee;
     color: #111;
-  }
+  } */
   
   
   /* Syntax Highlighting from prism.js starts below, partly modified: */

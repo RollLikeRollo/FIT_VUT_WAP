@@ -1,3 +1,13 @@
+/**
+ * @fileoverview Main server application
+ * @author Jan Zbořil <xzbori20@stud.fit.vutbr.cz>
+ * FIT VUT Brno 2023
+ * WAP proj2
+ */
+
+/**
+ * imports
+ */
 import express from 'express';
 import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
@@ -8,10 +18,15 @@ import session from 'express-session';
 
 const { __dirname } = fileDirName(import.meta);
 
+/**
+ * main app
+ */
 const app = express();
-const port = process.env.PORT || 8000;
+const port = 8000;
 
-// --- Defaults ---
+/**
+ * Defaults
+ */
 const title = {
   title: 'Vulnerabilities Educational Website',
   subtitle: {
@@ -107,8 +122,6 @@ app.get('/xss_reflected', (req, res) => {
 app.get('/xss_reflected/frame', (req, res) => { 
   var search = req.query.search;
   var search_bar = req.query.search_bar;
-  console.log(search);
-  console.log(search_bar);
   var full_url = req.protocol + '://' + req.get('host') + req.originalUrl;
   res.render('xss_reflected_frame', { title,author,school,year,fitlogo,search_result:search,search_bar,full_url });
 });
@@ -138,17 +151,18 @@ app.get('/xss_stored/frame', (req, res) => {
  * Render the xss stored frame attacker view
  */
 app.get('/xss_stored/frame_attacker', (req, res) => { 
-  var stolen = xss_stored.getStolenCookies();
   var sessionid = req.sessionID;
+  var stolen = xss_stored.getStolenCookies(sessionid);
   var full_url = req.protocol + '://' + req.get('host') + req.originalUrl;
   res.render('xss_stored_attacker', { title, full_url, stolen });
 });
 
 /**
+ * Delete the stolen cookies from server storage
  * Render the xss stored frame after the RESET is pressed
  */
 app.get('/api/xss_stored_reset', (req, res) => { 
-  xss_stored.resetStolenCookies();
+  xss_stored.resetStolenCookies(req.sessionID);
   res.status(200).send('Stolen cookies reset');
 });
 
@@ -160,11 +174,11 @@ app.post('/xss_stored/frame_attacker', (req, res) => {
   var sessionid = req.sessionID;
 
   if (body != null && body != undefined && body != '') { 
-    xss_stored.appendStolenCookies(body);
+    xss_stored.appendStolenCookies(body, sessionid);
   } else {
     res.status(304).send('Faulty data');
   }
-  var stolen = xss_stored.getStolenCookies();
+  var stolen = xss_stored.getStolenCookies(sessionid);
   res.status(205).render('xss_stored_attacker', { title, stolen });
   
 });
@@ -184,23 +198,21 @@ app.get('/clickjacking', (req, res) => {
   res.render('clickjacking', { title,author,school,year,fitlogo});
 });
 
-
-app.post('/clickjacking',function(req,res){
-  res.render('clickjacking', { title,author,school,year,fitlogo});
+/**
+ * the clickjacking malicious frame
+ */
+app.get('/clickjacking/iframe', (req, res) => { 
+  res.render('delete_user', { title,author,school,year,fitlogo });
 });
 
-app.get('/clickjacking/iframe', (req, res) => { 
+app.get('/clickjacking/iframe_protected', (req, res) => { 
+  res.setHeader('Content-Security-Policy', "frame-ancestors 'none';")
   res.render('delete_user', { title,author,school,year,fitlogo });
 });
 
 /**
  * Render the protceted clickjacking view
  */
-app.get('/clickjacking/iframe_protected', (req, res) => { 
-  res.setHeader('Content-Security-Policy', "frame-ancestors 'none';")
-  res.render('delete_user_protected', { title,author,school,year,fitlogo });
-});
-
 app.get('/clickjacking_protected', (req, res) => { 
   res.setHeader('Content-Security-Policy', "frame-ancestors 'none';")
   res.render('clickjacking_protected', { title,author,school,year,fitlogo });
@@ -228,56 +240,23 @@ app.post('/csrf/vulnerable', (req, res) => {
   res.render('csrf/vulnerable', { full_url });
 });
 
-
+/**
+ * The vulnerable Bank page view
+ */
 app.get('/csrf/vulnerable', (req, res) => {
-  console.log(csrf_storage.getTransfers(req.sessionID));
   var full_url = req.protocol + '://' + req.get('host') + req.originalUrl;
   res.render('csrf/vulnerable', { full_url });
 });
 
+/**
+ * Get the transfers for sesionID from the server storage
+ */
 app.get('/api/transfers', (req, res) => {
   var transfers = csrf_storage.getTransfers(req.sessionID);
-  console.log(transfers);
   res.send(JSON.stringify(transfers)).status(200);
 });
 
-
-/**
- * CSRF malicious frame
- */
-app.get('/csrf/malicious', (req, res) => {
-  res.render('csrf/malicious',);
-});
-
-
-// --- API ---
-
-app.get('/api/list_users', async (req, res) => {
-  let collection = await db.collection("users");
-  let results = await collection.find({})
-    .limit(50)
-    .toArray();
-
-  res.send(results).status(200);
-});
-
-app.post('/api/add_user', async (req, res) => { 
-  let collection = await db.collection("users");
-  
-  let users = await collection.find(req.body).toArray();
-  if (users.length > 0) { 
-    res.send({ 'err': ' User already exists' }).status(400);
-    return;
-  }
-
-  let newDocument = req.body;
-  newDocument.date = new Date();
-  let result = await collection.insertOne(newDocument);
-  res.send(result).status(204);
-});
-
-
-
+//-------------------------------------------------
 // --- APP ---
 
 app.listen(port, () => {

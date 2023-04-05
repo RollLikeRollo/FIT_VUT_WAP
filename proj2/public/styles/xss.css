@@ -1,3 +1,11 @@
+/* 
+ * CSS file for xss and csrf
+ * WAP proj 2
+ * Jan Zboril
+ * FIT VUT Brno
+ * 2023
+ */
+ 
 :root {
     --fitblue: #00a9e0;
     --fitblue-ligter: #93e8ff;
@@ -13,31 +21,15 @@
 body {
     text-align: justify;
     align-items: center;
-    height: 100%;
+    height: 99%;
 }
 
 html {
     font-family: Arial, Helvetica, sans-serif;
     font-size: 14px;
     color: #202020;
-    /* background-image: linear-gradient(0deg, rgb(255, 255, 255) , rgb(12, 12, 12)); */
-    height: 100vh;
+    height: 99vh;
 }
-
-/* a:link {
-    color: var(--fitblue);
-} */
-
-/*
-a:visited {
-    color: var(--darkred);
-} */
-
-
-
-/* .hero h1 {
-    box-shadow: inset 0 -6px 0 0 var(--fitred); 
- } */
 
 .title{
     font-size: 20px;
@@ -181,13 +173,18 @@ code.my-code {
     font-size: 12px;
     font-weight: 600;
     color: var(--fitblue-darker);
-    display: block;
+    /* display: block; */
     white-space: pre-wrap;
     text-align: left;
     background-color: transparent;
 }
 
-code {
+code.my-code.left{
+    text-align: left;
+    display: block;
+}
+
+/* code {
     padding: 2px;
     font-family: "Lucida Console", Courier, monospace;
     font-size: 12px;
@@ -197,7 +194,7 @@ code {
     white-space: pre-wrap;
     text-align: left;
     background-color: transparent;
-}
+} */
 
 
 
@@ -286,6 +283,7 @@ button.reverse:active  {
     resize: horizontal;
     overflow: hidden;
     width: 100%;
+    resize: none;
 }
 
 .xss-wrapper-left{
@@ -313,6 +311,7 @@ button.reverse:active  {
     flex-grow: 1;
     align-items: stretch;
     min-width: 300px;
+    resize: none;
 }
 
 .xss-wrapper-right .example-frame-cls{
@@ -320,6 +319,7 @@ button.reverse:active  {
     width: 100%;
     border: 1px solid var(--fitblue);
     flex: 1 1 auto;
+    resize: none;
 }
 
 .xss-wrapper-right iframe{
@@ -359,6 +359,52 @@ iframe{
   }
 
 
+ul ul {
+    padding-left: 10px;
+}
 
+li li {
+    padding-bottom : 5px;
+}
 
+.footer-icons{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.footer-icons{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.footer-icons img{
+    width: 30px;
+    height: 30px;
+    margin: 5px;
+}
+.footer-icons img:hover{
+    background-color: var(--fitblue);
+    border-radius: 3px;
+    animation: get-bigger 0.3s ease-in;
+    animation-fill-mode: forwards ;
+}
+@keyframes get-bigger {
+    0% {
+        transform: scale(1);
+        border-radius: 5px;
+    }
+    50% {
+        transform: scale(1.1);
+        border-radius: 25%;
+    }
+    100% {
+        transform: scale(1.2);
+        border-radius: 50%;
+    }
+}
 

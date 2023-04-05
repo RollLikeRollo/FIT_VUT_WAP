@@ -1,6 +1,18 @@
-function clickjack() {
+/**
+ * @file clickjack.js
+ * @description This file contains the clickjacking attack simulation.
+ * @author Jan Zboril <xzbori20@stud.fit.vutbr.cz>
+ * @date 2023
+ * FIT VUT Brno
+ * WAP project 2
+ */
 
-    // localStorage.setItem("clickjacked", true);
+/**
+ * Simulates a clickjacking attack by deleting a user from the local storage.
+ * Shows the learning text after the attack.
+ * @returns 
+ */
+function clickjack() {
 
     var after_div = parent.document.getElementById("after-clickjacking");
     after_div.hidden = false;
@@ -20,4 +32,5 @@ function clickjack() {
     localStorage.setItem("username_list", JSON.stringify(user_list));
 
     alert("User " + user_val + " has been deleted!");
+
 }

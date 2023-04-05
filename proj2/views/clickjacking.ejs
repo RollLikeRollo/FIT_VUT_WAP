@@ -1,14 +1,20 @@
+<!-- 
+    clickjacking HTML view
+    Jan Zboril 
+    xzbori20@stud.fit.vutbr.cz
+    FIT VUT Brno 2023
+    WAP proj2
+ -->
+
 <!DOCTYPE html>
 <html lang="en" class="html">
-    <script src="http://code.jquery.com/jquery-3.1.0.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <!-- <script type="module" src="/api/session-p.mjs" defer></script> -->
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="Content-Security-Policy" content="form-action 'self'" />
         <title><%- title.title %> | <%- title.subtitle.clickjacking %></title>
         <link rel="stylesheet" href="/styles/main.css">
+        <link rel="stylesheet" href="/styles/clickjacking.css">
         <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
     </head>
     <body class="body">

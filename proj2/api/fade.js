@@ -1,7 +1,16 @@
-window.onload = async function () { 
-    ;
-};
+/**
+ * @file fade.js
+ * @description Logic for fading animation between specific divs.
+ * @author Jan Zboril <xzbori20@stud.fit.vutbr.cz>
+ * @date 2023
+ * FIT VUT Brno
+ * WAP project 2
+ */
 
+/**
+ * Fades between the divs with class fadeMe.
+ * @param {number} number Number of the div to hide. Div with number + 1 will be shown.
+ */
 async function fade(number) {
     console.log("fade");
     var fade_elems = document.getElementsByClassName("fadeMe");

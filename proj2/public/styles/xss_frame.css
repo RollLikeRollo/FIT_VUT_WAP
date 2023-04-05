@@ -1,6 +1,15 @@
+/* 
+ * CSS file for lab pages and their frames
+ * WAP proj 2
+ * Jan Zboril
+ * FIT VUT Brno
+ * 2023
+ */
+
 @font-face {
+    /* font taken from https://www.fontspace.com/ringbearer-font-f2246 */
     font-family: MiddleEarth;
-    src: url(../fonts/ringbearer.ttf);
+    src: url(../fonts/ringbearer.ttf); 
   }
 
 :root {
@@ -25,7 +34,6 @@ html {
     font-family: Arial, Helvetica, sans-serif;
     font-size: 14px;
     color: #202020;
-    /* background-image: linear-gradient(0deg, rgb(255, 255, 255) , rgb(12, 12, 12)); */
     height: 100vh;
 }
 
@@ -51,7 +59,6 @@ html {
 .example-controls{
     background-color: #202020;
     color: white;
-    /* margin: 5px; */
     padding: 5px 5px 0px 0px;
 }
 

@@ -1,3 +1,36 @@
+/**
+ * @file list_sessions.js
+ * @description Logic for the lab - clickjacking 
+ * @author Jan Zboril <xzbori20@stud.fit.vutbr.cz>
+ * @date 2023
+ * FIT VUT Brno
+ * WAP project 2
+ */
+
+/**
+ * Initializes the user list in local storage, if the list is not present.
+ * Adds event listeners to the username select autocomplete and the slider.
+ */
+window.onload = function () {
+    
+    u = getSessionList();
+    if (u === null) {
+        list = ["PaulAtreides", "DukeLeto", "GurneyHalleck"]
+        localStorage.setItem("username_list", JSON.stringify(list));
+    }
+
+    // username select autocomplete
+    const autocomplete_field = document.getElementById("username-select-input");
+    autocomplete_field.addEventListener("click", autocomplete(autocomplete_field));
+
+    const slider_obj = document.getElementById("slide-clickjacking-slider");
+    slider_obj.addEventListener("input", sliderFunc);
+}
+
+/**
+ * Fetches the list of users from the local storage.
+ * Renders the list in a table on the page.
+ */
 async function fetchList() {
    
     let users = await getSessionList();
@@ -20,6 +53,9 @@ async function fetchList() {
     oldTable.appendChild(newTable);
 };
 
+/**
+ * Removes the list of users from the page.
+ */
 async function hideList() { 
     let oldTable = document.getElementById("usr-list");
     while (oldTable.firstChild) {
@@ -27,50 +63,42 @@ async function hideList() {
     }
 };
 
-window.onload = function () {
-    // localStorage.clear();
-    u = getSessionList();
-    if (u === null) {
-        list = ["PaulAtreides", "DukeLeto", "GurneyHalleck"]
-        localStorage.setItem("username_list", JSON.stringify(list));
-    }
-
-    // username select autocomplete
-    const autocomplete_field = document.getElementById("username-select-input");
-    // console.log(autocomplete_field);
-    autocomplete_field.addEventListener("click", autocomplete(autocomplete_field));
-
-    const slider_obj = document.getElementById("slide-clickjacking-slider");
-    slider_obj.addEventListener("input", sliderFunc);
-}
-
-
-
+/**
+ * Changes the opacity of the iframe based on the slider value.
+ */
 async function sliderFunc() {
     const slider_obj = document.getElementById("slide-clickjacking-slider");
     const val = slider_obj.value;
 
     const iframe = document.getElementById("clickjacking-iframe-obj");
 
-
-    // console.log(val);
     iframe.style.opacity = val/100;
 }
 
+/**
+ * Resets the local storage to the default list of users.
+ */
 async function makeDefault() {
     console.log("makeDefault");
     localStorage.clear();
     list = ["PaulAtreides", "DukeLeto", "GurneyHalleck"]
     localStorage.setItem("username_list", JSON.stringify(list));
     fetchList();
-
 }
 
+/**
+ * 
+ * @returns {Array} List of users from the local storage.
+ */
 function getSessionList() { 
     let u = JSON.parse(localStorage.getItem("username_list"));
     return u;
 };
 
+/**
+ * Listener for the button creation notice.
+ * Clears and hides the form and hides the form.
+ */
 const btn = document.getElementById("user-created-button");
 btn.addEventListener('click', async (e) => { 
     let sec = document.getElementById("usr-created-sec");
@@ -79,9 +107,12 @@ btn.addEventListener('click', async (e) => {
     sec.style.display = "none";
 });
 
-
-
-
+/**
+ * Logic for user creation.
+ * Checks if the username is valid and if the user already exists.
+ * Add username to the list of users in the local storage.
+ * Shows the notice about the user creation.
+ */
 const form = document.getElementById("user-add-button");
 form.addEventListener('click', async (e) => {
     const form = document.getElementById("user-add-form");
@@ -94,7 +125,6 @@ form.addEventListener('click', async (e) => {
         console.error("Invalid username");
         err_bool = true;
         err_msg = "Invalid username";
-        // return;
     } else {
         let users = getSessionList();
         if (users === null) {
@@ -137,11 +167,15 @@ form.addEventListener('click', async (e) => {
 });
 
 
-
-// from https://www.w3schools.com/howto/howto_js_autocomplete.asp
-// changed a bit
+/**
+ * Autocomplete for the username select.
+ * Original code from: https://www.w3schools.com/howto/howto_js_autocomplete.asp
+ * Changed to work on my page
+ * @param {*} inp input field to be autocompleted
+ */
 async function autocomplete(inp) {
 
+    console.log(inp);
     var currentFocus;
     /*execute a function when someone writes in the text field:*/
     inp.addEventListener("input", function (e) {
